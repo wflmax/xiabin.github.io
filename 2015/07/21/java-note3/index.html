@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>XMl学习笔记 | Xiabin&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="XML的学习目标：
+能用XML描述现实中的有层次关系的数据
+能使用程序读取到XML中表示的数据（解析Parser）
+
+一、XML是什么？作用是什么？
+XML是指可扩展标记语言（eXtensible Markup Language），用户自定义的标签.相对于HTML来讲的。
+XML被设计的宗旨是表示数据。HTML是用来显示数据的。目前经常使用的XML版本是1.0
+XML除了表示数据外。在实际的企业开">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMl学习笔记">
+<meta property="og:url" content="http://xiabin.github.io/2015/07/21/java-note3/index.html">
+<meta property="og:site_name" content="Xiabin's Blog">
+<meta property="og:description" content="XML的学习目标：
+能用XML描述现实中的有层次关系的数据
+能使用程序读取到XML中表示的数据（解析Parser）
+
+一、XML是什么？作用是什么？
+XML是指可扩展标记语言（eXtensible Markup Language），用户自定义的标签.相对于HTML来讲的。
+XML被设计的宗旨是表示数据。HTML是用来显示数据的。目前经常使用的XML版本是1.0
+XML除了表示数据外。在实际的企业开">
+<meta property="og:updated_time" content="2015-07-23T09:57:16.438Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XMl学习笔记">
+<meta name="twitter:description" content="XML的学习目标：
+能用XML描述现实中的有层次关系的数据
+能使用程序读取到XML中表示的数据（解析Parser）
+
+一、XML是什么？作用是什么？
+XML是指可扩展标记语言（eXtensible Markup Language），用户自定义的标签.相对于HTML来讲的。
+XML被设计的宗旨是表示数据。HTML是用来显示数据的。目前经常使用的XML版本是1.0
+XML除了表示数据外。在实际的企业开">
+  
+    <link rel="alternative" href="/atom.xml" title="Xiabin&#39;s Blog" type="application/atom+xml">
+  
+  
+   <link href="/favicon.ico" rel="icon" type="image/x-ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+  <style type="text/css">
+  .bdshare-slide-style-r5
+  {
+    z-index: 10
+  }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Xiabin&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Good Good Study Day Day Up!!!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xiabin.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java-note3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/21/java-note3/" class="article-date">
+  <time datetime="2015-07-21T11:22:30.000Z" itemprop="datePublished">7月 21 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      XMl学习笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="XML的学习目标：">XML的学习目标：</h2><ul>
+<li>能用XML描述现实中的有层次关系的数据</li>
+<li>能使用程序读取到XML中表示的数据（解析Parser）</li>
+</ul>
+<h2 id="一、XML是什么？作用是什么？">一、XML是什么？作用是什么？</h2><ol>
+<li>XML是指可扩展标记语言（eXtensible Markup Language），用户自定义的标签.相对于HTML来讲的。</li>
+<li>XML被设计的宗旨是表示数据。HTML是用来显示数据的。目前经常使用的XML版本是1.0</li>
+<li>XML除了表示数据外。在实际的企业开发中，主要用XML作为程序的配置文件。</li>
+</ol>
+<h2 id="二、XML的基本语法">二、XML的基本语法</h2><ol>
+<li>文档声明：<br><code>作用：</code>用于标识该文档是一个XML文档。<br><code>注意事项：</code>声明必须出现在文档的第一行（之前连空行都不能有，也不能有任何的注释）<br> 最简单的XML声明：<code>&lt;?xml version=&quot;1.0&quot;?&gt;</code><br> 声明中的encoding属性：说明解析当前XML文档时所使用的编码。默认是UTF-8<br> 声明中的standalone属性：说明XML文档是否是独立的。（了解） <a id="more"></a>
+</li>
+</ol>
+<ol>
+<li><p>元素<br>结束标签不能省略<br>一个XML文档必须且只能有一个根标签<br>XML文档中不会忽略回车和换行及空格<br>标签的命名规范：元素(标签)的名称可以包含字母、数字、减号、下划线和英文句点。严格区分大小写。</p>
+</li>
+<li><p>元素的属性<br>元素的属性取值一定要用引号引起来（单引号或双引号）</p>
+</li>
+<li><p>注释<br>与HTML中的注释完全一致：<code>&lt;!--这是注释--&gt;</code><br>注释不能嵌套</p>
+</li>
+<li><p>CDATA区<br>CDATA是Character Data的缩写。<br>作用：CDATA区中的东东都是文本。<br>语法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="cdata">&lt;![CDATA[</span><br><span class="line">    文本内容</span><br><span class="line">]]&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特殊字符</p>
+<pre><code>&amp;        &amp;amp<span class="comment">;</span>
+&lt;        &amp;lt<span class="comment">;    (less than)</span>
+&gt;        &amp;gt:    (great than)
+"        &amp;quot<span class="comment">;</span>
+'        &amp;apos<span class="comment">;</span>
+</code></pre></li>
+<li><p>处理指令(PI:Processing Instruction)<br>处理指令，简称PI(Processing Instruction)。<br>作用：用来指挥软件如何解析XML文档。<br>语法：必须以“&lt;?”作为开头，以“?&gt;”作为结尾。</p>
+</li>
+</ol>
+<h2 id="三、XML的约束">三、XML的约束</h2><ol>
+<li>格式良好的XML文档：符合XML语法的。</li>
+<li>有效的XML文档：遵循约束规范的。<br>格式良好的不一定是有效的，但有效的必定格式良好。</li>
+</ol>
+<h2 id="四、DTD的基本语法（看懂即可）">四、DTD的基本语法（看懂即可）</h2><ol>
+<li>DTD：Document Type Definition</li>
+<li>作用：约束XML的书写规范。</li>
+<li>DTD文件保存到磁盘时，必须使用UTF-8编码</li>
+<li>如何引入外部的DTD文档来约束当前的XML文档<br>DTD文件在本地：&lt;!DOCTYPE 根元素名称 SYSTEM “DTD文件的路径”&gt;<br>DTD文件在网络上：&lt;!DOCTYPE 根元素名称 PUBLIC “DTD名称” “DTD的路径URL”&gt;</li>
+<li>DTD的语法细节<ol>
+<li>定义元素<br> 语法：&lt;!ELEMENT 元素名称 使用规则&gt;<br> 使用规则：<pre><code>(<span class="preprocessor">#PCDATA):指示元素的主体内容只能是普通的文本.(Parsed Character Data)</span>
+<span class="label">EMPTY:</span>指示元素的不能有主体内容。
+<span class="label">ANY:</span>用于指示元素的主体内容为任意类型
+(子元素)：指示元素中包含的子元素
+        如果子元素用逗号分开，说明必须按照声明顺序去编写XML文档
+        如果子元素用“|”分开，说明任选其一。
+        用+、*、？来表示元素出现的次数
+</code></pre></li>
+<li>定义元素的属性(attribute)<br> 语法：&lt;!ATTLIST 哪个元素的属性<pre><code>属性名1 属性值类型 设置说明
+属性名2 属性值类型 设置说明&gt;
+</code></pre> 属性值类型：<pre><code>CDATA：说明该属性的取值为一个普通文本
+ENUMERATED <span class="params">(DTD没有此关键字)</span>：
+    语法：&lt;<span class="built_in">!</span>ATTLIST 元素名称 <span class="params">(值<span class="number">1</span>|值<span class="number">2</span>)</span> <span class="string">"值1"</span>&gt;
+ID:属性的取值不能重复
+</code></pre> 设置说明：<pre><code><span class="preprocessor">#REQUIRED：表示该属性必须出现</span>
+<span class="preprocessor">#IMPLIED：属性可有可无</span>
+<span class="preprocessor">#FIXED:表示属性的取值为一个固定值 语法：#FIXED "固定值"</span>
+直接值：表示属性的取值为该默认值
+</code></pre></li>
+<li>定义实体<br> 关键字ENTITY<br> 实体的定义分为引用实体和参数实体<br> 引用实体：<pre><code>作用：在DTD中定义，在<span class="built_in">XML</span>中使用
+语法：<span class="subst">&lt;!</span>ENTITY 实体名称 <span class="string">"实体内容"</span><span class="subst">&gt;</span>
+在<span class="built_in">XML</span>中使用：<span class="subst">&amp;</span>实体名称;
+</code></pre> 参数实体：<pre><code>作用：在<span class="variable">DTD</span>中定义，在<span class="variable">DTD</span>中使用
+语法：&lt;<span class="exclamation_mark">!</span><span class="variable">ENTITY</span> <span class="comment">% 实体名称 "实体内容"&gt;</span>
+在<span class="variable">DTD</span>中使用：<span class="comment">%实体名称;</span>
+</code></pre></li>
+</ol>
+</li>
+</ol>
+<h2 id="五、XML解析方式概述">五、XML解析方式概述</h2><p>1、常用XML的解析方式：DOM和SAX<br>DOM:Document Object Model是W3C推荐使用的解析方式<br>SAX:Simple API for XML。非官方标准。<br>2、常用解析开发包：<br>JAXP:SUN推出的实现，能进行DOM和SAX方式解析<br>Dom4J<br>JDom等</p>
+<h2 id="六、JAXP进行DOM解析">六、JAXP进行DOM解析</h2><p>JAXP的API都在JavaSE中。<br>org.w3c.dom:提供DOM方式解析XML的标准接口<br>org.xml.sax:提供SAX方式解析XML的标准接口<br>javax.xml:提供了解析XML文档的类</p>
+<h2 id="七、JAXP进行DOM解析的案例">七、JAXP进行DOM解析的案例</h2><h2 id="八、JAXP进行SAX解析">八、JAXP进行SAX解析</h2><p>SAX解析原理：<br>通过读取器读取XML文档，当读到了文档的某一部分时（文档的开始，元素的开始、文本、元素的结束、文档的结束），<br>都会调用事件处理器的对应方法，读到的数据，以参数的形式传递给对应的方法。</p>
+<h2 id="九、Dom4J简介">九、Dom4J简介</h2><h2 id="十、Xpath">十、Xpath</h2><h2 id="十一、Debug调试">十一、Debug调试</h2><h2 id="十二、Junit单元测试">十二、Junit单元测试</h2><h2 id="十三、利用Dom4J改写之前的案例">十三、利用Dom4J改写之前的案例</h2><h2 id="十四_Schema约束(看懂即可)">十四 Schema约束(看懂即可)</h2><ol>
+<li>Schema约束文档本身就是一个XML文档，扩展名为xsd</li>
+<li><p>重点：根据Schema写出XML文档<br>难点：XML文档的根元素怎么写？</p>
+<ol>
+<li><p>首先看Schema文档，找到根元素</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">书架</span>&gt;</span><span class="tag">&lt;/<span class="title">书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>思考：书架来自于哪个名称空间？看Schema文档，targetNamespace就是名称空间。<br>用xmlns关键字(xmlns名称空间声明)来声明我的元素来自哪个名称空间（xmlns：xml namespace）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">itcast:书架</span> <span class="attribute">xmlns:itcast</span>=<span class="value">"http://www.itcast.cn"</span>&gt;</span><span class="tag">&lt;/<span class="title">itcast:书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>思考：名称空间与哪个xsd文件对应呢？使用schemaLocation关键字来关联名称空间和xsd的对应关系</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">itcast:书架</span> <span class="attribute">xmlns:itcast</span>=<span class="value">"http://www.itcast.cn"</span></span><br><span class="line"> <span class="attribute">schemaLocation</span>=<span class="value">"http://www.itcast.cn book.xsd"</span>&gt;</span><span class="tag">&lt;/<span class="title">itcast:书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>schemaLocation来自哪里？来自一个标准的名称空间<code>（http://www.w3.org/2001/XMLSchema-instance）</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">itcast:书架</span> <span class="attribute">xmlns:itcast</span>=<span class="value">"http://www.itcast.cn"</span></span><br><span class="line">            <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">            <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://www.itcast.cn book.xsd"</span>&gt;</span><span class="tag">&lt;/<span class="title">itcast:书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a  href="http://xiabin.github.io/2015/07/21/java-note3/#comments" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+     </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/07/22/java-note2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Web会话概述
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/21/js-classical-problem/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JS一些经典问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post._id" data-title="post.title" data-url="http://xiabin.github.io/2015/07/21/java-note3/"></div>
+<!-- 多说评论框 end -->
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/感受/">感受</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HEXO/">HEXO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HEXO/" style="font-size: 10px;">HEXO</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/07/23/java-note1/">JSP概述</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/22/java-note2/">Web会话概述</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/21/java-note3/">XMl学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/21/js-classical-problem/">JS一些经典问题</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/21/js-compatibility/">典型的javascript兼容性问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 夏彬<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+</nav>
+    
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"xiabin"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"5","bdPos":"right","bdTop":"250"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!--百度统计-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa4a0be1a81f4fc8181968be970c2caa2' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+
+  </div>
+</body>
+</html>

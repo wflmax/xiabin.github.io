@@ -3,21 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>避免js冲突 | Xiabin&#39;s Blog</title>
+  <title>给程序统一的入口 | Xiabin&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
+  <meta name="description" content="给程序统一的入口window.onload和DOMReady存在问题:  
+
+js加载混乱，没有纪律性
+在DOM节点还没有被载入的时候程序会报错">
 <meta property="og:type" content="article">
-<meta property="og:title" content="避免js冲突">
-<meta property="og:url" content="http://xiabin.github.io/2014/10/21/javascript/index.html">
+<meta property="og:title" content="给程序统一的入口">
+<meta property="og:url" content="http://xiabin.github.io/2014/10/21/js-unified-entrance/index.html">
 <meta property="og:site_name" content="Xiabin's Blog">
-<meta property="og:description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
-<meta property="og:updated_time" content="2015-07-23T06:56:52.182Z">
+<meta property="og:description" content="给程序统一的入口window.onload和DOMReady存在问题:  
+
+js加载混乱，没有纪律性
+在DOM节点还没有被载入的时候程序会报错">
+<meta property="og:updated_time" content="2015-07-23T08:04:52.390Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="避免js冲突">
-<meta name="twitter:description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
+<meta name="twitter:title" content="给程序统一的入口">
+<meta name="twitter:description" content="给程序统一的入口window.onload和DOMReady存在问题:  
+
+js加载混乱，没有纪律性
+在DOM节点还没有被载入的时候程序会报错">
   
     <link rel="alternative" href="/atom.xml" title="Xiabin&#39;s Blog" type="application/atom+xml">
   
@@ -73,10 +79,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-javascript" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-js-unified-entrance" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/10/21/javascript/" class="article-date">
-  <time datetime="2014-10-21T12:10:36.000Z" itemprop="datePublished">10月 21 2014</time>
+    <a href="/2014/10/21/js-unified-entrance/" class="article-date">
+  <time datetime="2014-10-21T13:16:39.000Z" itemprop="datePublished">10月 21 2014</time>
 </a>
     
   <div class="article-category">
@@ -91,7 +97,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      避免js冲突
+      给程序统一的入口
     </h1>
   
 
@@ -99,31 +105,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="接触前端已经有一段时间了现在写写关于前端js编程的总结吧">接触前端已经有一段时间了现在写写关于前端js编程的总结吧</h4><p><strong>本章主要介绍如何避免<code>js冲突</code></strong></p>
-<p> 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。<br> <a id="more"></a></p>
-<p>解决办法如下：</p>
+        <p><code>给程序统一的入口</code><br><code>window.onload和DOMReady</code><br>存在问题:  </p>
 <ol>
-<li>一种简单有效的方法就是用匿名函数把脚本包起来，让变量的作用域在匿名函数之内，写法如下：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Function()&#123;&#10;       //&#20195;&#30721;&#10;&#125;&#65288;&#65289;</span><br></pre></td></tr></table></figure>
-</li>
+<li>js加载混乱，没有纪律性</li>
+<li>在DOM节点还没有被载入的时候程序会报错  <a id="more"></a>
+当把js文件放在window.onload事件之后，window对象会在网页元素全部加载完毕之后才会触发onload事件，而此时DOM节点已经生成，则执行程序不会报错。<br>下面说下window.onload和DOMReady的区别：<br>前者需要等页面加载完成时才会触发，包括图片，flash等富媒体。DOMReady只是判断页面内所有的DOM节点是否已经全部生成，至于节点的内容是否加载完成，它并不关心。所以后者触发比前者快，特别当页面还有大量的富媒体资源时，后者触发很久后才会触发前者。<br>但是DOMReady不是原生js里面就有的我们可以通过js的框架库来实现，比如说jquery.<br>如$(document).ready();<br>或者你也可以把加载js文件的位置写在最接近标签的地方。</li>
 </ol>
-<p>这是一种很巧妙的形式首先定义了一个匿名的function然后立即调用。<br><strong>Ps:用匿名函数把脚本包起来，可以有效控制全局变量，避免冲突。</strong></p>
-<p>好的 看起来这是很好的解决办法 是不是？现在假设假设A程序员写了一个脚本，然后B程序员想调用A程序员写的脚本里面定义的变量。但是在这种通过匿名函数包裹起来的方式下，是行不通的。这个时候我们应该想想别的对策。</p>
-<ol>
-<li>我们可以使用全局作用域变量来传递需要跨脚本的变量，我们可以在添加全局变量，但是我们要考虑到全句变量的数量问题，所以我们采用hash对象作为全局变量。如下形式：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> GLOBAL=&#123;&#125;;</span><br><span class="line"><span class="comment">//添加的变量方法如下</span></span><br><span class="line">GLOBAL.str=”xxx”;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这样就可以添加全局变量了<br>但是在想想要是有很多程序员一起工作每个都添加全局变量那么还是回冲突的所以我么应该设置一个方法用来检测该全局变量是否存在同时存在并且是否重复挂载在GlOBAL下面。</p>
-<ol>
-<li>在这里我们引进命名空间的说法，即每个程序员在写自己的脚本的时候都为自己命名一个命名空间把需要传递的变量挂载在这下面。<br>下面是使用命名空间解决冲突的完整代码：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span>  GLOBAL=&#123;&#125;;</span><br><span class="line">GLOBAL.namespace=<span class="function"><span class="keyword">function</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> arr=str.split(“.”),<span class="number">0</span>=CLOBAL；</span><br><span class="line">   <span class="keyword">for</span>(i=(arr[<span class="number">0</span>] == “GLOBAL”)?<span class="number">1</span> : <span class="number">0</span>; I &lt;arr.length; i++)&#123;</span><br><span class="line">      o[arr[[i]] = o[arr[i]] || &#123;&#125;;</span><br><span class="line">      o =o[arr[i]];</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>Ps:添加必要的注释，可以大大提高代码的可维护性，对于团队合作来说更是十分有必要。通过合理的添加注释以及使用命名空间，可以很好的避免js冲突</strong></p>
 
       
     </div>
     <footer class="article-footer">
       
-        <a  href="http://xiabin.github.io/2014/10/21/javascript/#comments" class="article-comment-link">Comments</a>
+        <a  href="http://xiabin.github.io/2014/10/21/js-unified-entrance/#comments" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -134,19 +127,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2014/10/21/js-unified-entrance/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/10/21/js-compatibility/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          给程序统一的入口
+          典型的javascript兼容性问题
         
       </div>
     </a>
   
   
-    <a href="/2014/10/19/first/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/10/21/javascript/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hexo 初体验</div>
+      <div class="article-nav-title">避免js冲突</div>
     </a>
   
 </nav>
@@ -157,7 +150,7 @@
 
 <section id="comments">
   <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post._id" data-title="post.title" data-url="http://xiabin.github.io/2014/10/21/javascript/"></div>
+  <div class="ds-thread" data-thread-key="post._id" data-title="post.title" data-url="http://xiabin.github.io/2014/10/21/js-unified-entrance/"></div>
 <!-- 多说评论框 end -->
 </section>
 </section>

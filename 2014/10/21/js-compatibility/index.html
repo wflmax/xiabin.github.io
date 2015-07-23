@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>避免js冲突 | Xiabin&#39;s Blog</title>
+  <title>典型的javascript兼容性问题 | Xiabin&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
+  <meta name="description" content="典型的javascript兼容性问题本文介绍下经常出现的javascript兼容性问题以及解决办法
+nextSibing    Firefox会将包括空白、换行等文本信息也当做childNodes中的一员，而IE则会忽略它，只将DOM节点当做是childNodes的一员。我么可以使用document.all 来判断，因为该属性是IE下的特有属性，而在Firefox是不支持的。可以通过判断此属性来进">
 <meta property="og:type" content="article">
-<meta property="og:title" content="避免js冲突">
-<meta property="og:url" content="http://xiabin.github.io/2014/10/21/javascript/index.html">
+<meta property="og:title" content="典型的javascript兼容性问题">
+<meta property="og:url" content="http://xiabin.github.io/2014/10/21/js-compatibility/index.html">
 <meta property="og:site_name" content="Xiabin's Blog">
-<meta property="og:description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
-<meta property="og:updated_time" content="2015-07-23T06:56:52.182Z">
+<meta property="og:description" content="典型的javascript兼容性问题本文介绍下经常出现的javascript兼容性问题以及解决办法
+nextSibing    Firefox会将包括空白、换行等文本信息也当做childNodes中的一员，而IE则会忽略它，只将DOM节点当做是childNodes的一员。我么可以使用document.all 来判断，因为该属性是IE下的特有属性，而在Firefox是不支持的。可以通过判断此属性来进">
+<meta property="og:updated_time" content="2015-07-23T08:04:52.390Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="避免js冲突">
-<meta name="twitter:description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
+<meta name="twitter:title" content="典型的javascript兼容性问题">
+<meta name="twitter:description" content="典型的javascript兼容性问题本文介绍下经常出现的javascript兼容性问题以及解决办法
+nextSibing    Firefox会将包括空白、换行等文本信息也当做childNodes中的一员，而IE则会忽略它，只将DOM节点当做是childNodes的一员。我么可以使用document.all 来判断，因为该属性是IE下的特有属性，而在Firefox是不支持的。可以通过判断此属性来进">
   
     <link rel="alternative" href="/atom.xml" title="Xiabin&#39;s Blog" type="application/atom+xml">
   
@@ -73,10 +73,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-javascript" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-js-compatibility" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/10/21/javascript/" class="article-date">
-  <time datetime="2014-10-21T12:10:36.000Z" itemprop="datePublished">10月 21 2014</time>
+    <a href="/2014/10/21/js-compatibility/" class="article-date">
+  <time datetime="2014-10-21T13:40:25.000Z" itemprop="datePublished">10月 21 2014</time>
 </a>
     
   <div class="article-category">
@@ -91,7 +91,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      避免js冲突
+      典型的javascript兼容性问题
     </h1>
   
 
@@ -99,31 +99,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="接触前端已经有一段时间了现在写写关于前端js编程的总结吧">接触前端已经有一段时间了现在写写关于前端js编程的总结吧</h4><p><strong>本章主要介绍如何避免<code>js冲突</code></strong></p>
-<p> 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。<br> <a id="more"></a></p>
-<p>解决办法如下：</p>
-<ol>
-<li>一种简单有效的方法就是用匿名函数把脚本包起来，让变量的作用域在匿名函数之内，写法如下：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Function()&#123;&#10;       //&#20195;&#30721;&#10;&#125;&#65288;&#65289;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这是一种很巧妙的形式首先定义了一个匿名的function然后立即调用。<br><strong>Ps:用匿名函数把脚本包起来，可以有效控制全局变量，避免冲突。</strong></p>
-<p>好的 看起来这是很好的解决办法 是不是？现在假设假设A程序员写了一个脚本，然后B程序员想调用A程序员写的脚本里面定义的变量。但是在这种通过匿名函数包裹起来的方式下，是行不通的。这个时候我们应该想想别的对策。</p>
-<ol>
-<li>我们可以使用全局作用域变量来传递需要跨脚本的变量，我们可以在添加全局变量，但是我们要考虑到全句变量的数量问题，所以我们采用hash对象作为全局变量。如下形式：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> GLOBAL=&#123;&#125;;</span><br><span class="line"><span class="comment">//添加的变量方法如下</span></span><br><span class="line">GLOBAL.str=”xxx”;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这样就可以添加全局变量了<br>但是在想想要是有很多程序员一起工作每个都添加全局变量那么还是回冲突的所以我么应该设置一个方法用来检测该全局变量是否存在同时存在并且是否重复挂载在GlOBAL下面。</p>
-<ol>
-<li>在这里我们引进命名空间的说法，即每个程序员在写自己的脚本的时候都为自己命名一个命名空间把需要传递的变量挂载在这下面。<br>下面是使用命名空间解决冲突的完整代码：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span>  GLOBAL=&#123;&#125;;</span><br><span class="line">GLOBAL.namespace=<span class="function"><span class="keyword">function</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> arr=str.split(“.”),<span class="number">0</span>=CLOBAL；</span><br><span class="line">   <span class="keyword">for</span>(i=(arr[<span class="number">0</span>] == “GLOBAL”)?<span class="number">1</span> : <span class="number">0</span>; I &lt;arr.length; i++)&#123;</span><br><span class="line">      o[arr[[i]] = o[arr[i]] || &#123;&#125;;</span><br><span class="line">      o =o[arr[i]];</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>Ps:添加必要的注释，可以大大提高代码的可维护性，对于团队合作来说更是十分有必要。通过合理的添加注释以及使用命名空间，可以很好的避免js冲突</strong></p>
+        <h4 id="典型的javascript兼容性问题">典型的javascript兼容性问题</h4><p>本文介绍下经常出现的javascript兼容性问题以及解决办法</p>
+<p><code>nextSibing</code><br>    Firefox会将包括空白、换行等文本信息也当做childNodes中的一员，而IE则会忽略它，只将DOM节点当做是childNodes的一员。我么可以使用document.all 来判断，因为该属性是IE下的特有属性，而在Firefox是不支持的。可以通过判断此属性来进行相应的处理。<br>    <a id="more"></a><br><code>透明度</code><br>透明度问题与上面个问题类似，IE下透明度是通过滤镜来实现的，而在firefox下透明度是通过css的opacity来实现的。我们可以进行如下设置:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">document</span>.all)&#123;</span><br><span class="line">a.style.filter = <span class="string">'alpha(opacity = 20)'</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">a.style.opacity = <span class="number">0.2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>则可以进行正常的设置了。  </p>
+<p><code>event对象</code><br>  IE下event对象是window的属性作用域全局作用域，而在FIreofox中event对象是作为事件的参数存在的。可以这样获取：<br>e = window.event || e;<br>对于派生事件的对象在IE下是通过event的srcELement属性访问的，而在Firefox下是通过event对象的target属性访问的.<br><code>冒泡</code><br>要阻止事件冒泡，在IE下我们可以通过设置event对象的cancelBubble属性为true实现的，而在Firefox下则是通过调用event对象的stopPropagation方法实现的。<br><code>on,attachEvent 和 addEventListemer</code><br>要阻止事件冒泡，在IE下我们可以通过设置event对象的cancelBubble属性为true实现的，而在Firefox下则是通过调用event对象的stopPropagation方法实现的。<br>由于通过on xxx 监听方式没有叠加的效果，最后定义的会将前面的覆盖掉。这是一个危险的方法，我们推荐使用addEvent和addEventLister方法来代替，前者是IE支持的方法，而后者是Firefox支持的方法。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">&#125;);</span><br><span class="line">addEventLister(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
       
-        <a  href="http://xiabin.github.io/2014/10/21/javascript/#comments" class="article-comment-link">Comments</a>
+        <a  href="http://xiabin.github.io/2014/10/21/js-compatibility/#comments" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -134,19 +119,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2014/10/21/js-unified-entrance/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/10/21/js-classical-problem/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          给程序统一的入口
+          JS一些经典问题
         
       </div>
     </a>
   
   
-    <a href="/2014/10/19/first/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/10/21/js-unified-entrance/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hexo 初体验</div>
+      <div class="article-nav-title">给程序统一的入口</div>
     </a>
   
 </nav>
@@ -157,7 +142,7 @@
 
 <section id="comments">
   <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post._id" data-title="post.title" data-url="http://xiabin.github.io/2014/10/21/javascript/"></div>
+  <div class="ds-thread" data-thread-key="post._id" data-title="post.title" data-url="http://xiabin.github.io/2014/10/21/js-compatibility/"></div>
 <!-- 多说评论框 end -->
 </section>
 </section>
