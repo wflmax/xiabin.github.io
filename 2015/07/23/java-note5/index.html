@@ -3,21 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>避免js冲突 | Xiabin&#39;s Blog</title>
+  <title>WEB入门、Tomcat安装 | Xiabin&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
+  <meta name="description" content="一、Web开发的基本概念服务器上的WEB资源：静态资源：基本不变的。比如html、css、js动态资源：根据不同环境而不同，动的。动态资源生成静态资源。比如：JSP、ASP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="避免js冲突">
-<meta property="og:url" content="http://xiabin.github.io/2014/10/21/javascript/index.html">
+<meta property="og:title" content="WEB入门、Tomcat安装">
+<meta property="og:url" content="http://xiabin.github.io/2015/07/23/java-note5/index.html">
 <meta property="og:site_name" content="Xiabin's Blog">
-<meta property="og:description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
-<meta property="og:updated_time" content="2015-07-23T06:56:52.182Z">
+<meta property="og:description" content="一、Web开发的基本概念服务器上的WEB资源：静态资源：基本不变的。比如html、css、js动态资源：根据不同环境而不同，动的。动态资源生成静态资源。比如：JSP、ASP">
+<meta property="og:updated_time" content="2015-07-23T14:20:36.162Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="避免js冲突">
-<meta name="twitter:description" content="接触前端已经有一段时间了现在写写关于前端js编程的总结吧本章主要介绍如何避免js冲突
- 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。">
+<meta name="twitter:title" content="WEB入门、Tomcat安装">
+<meta name="twitter:description" content="一、Web开发的基本概念服务器上的WEB资源：静态资源：基本不变的。比如html、css、js动态资源：根据不同环境而不同，动的。动态资源生成静态资源。比如：JSP、ASP">
   
     <link rel="alternative" href="/atom.xml" title="Xiabin&#39;s Blog" type="application/atom+xml">
   
@@ -73,14 +70,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-javascript" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-java-note5" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/10/21/javascript/" class="article-date">
-  <time datetime="2014-10-21T12:10:36.000Z" itemprop="datePublished">10月 21 2014</time>
+    <a href="/2015/07/23/java-note5/" class="article-date">
+  <time datetime="2015-07-23T11:31:04.000Z" itemprop="datePublished">7月 23 2015</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
   </div>
 
   </div>
@@ -91,7 +88,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      避免js冲突
+      WEB入门、Tomcat安装
     </h1>
   
 
@@ -99,34 +96,69 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="接触前端已经有一段时间了现在写写关于前端js编程的总结吧">接触前端已经有一段时间了现在写写关于前端js编程的总结吧</h4><p><strong>本章主要介绍如何避免<code>js冲突</code></strong></p>
-<p> 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。<br> <a id="more"></a></p>
-<p>解决办法如下：</p>
-<ol>
-<li>一种简单有效的方法就是用匿名函数把脚本包起来，让变量的作用域在匿名函数之内，写法如下：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Function()&#123;&#10;       //&#20195;&#30721;&#10;&#125;&#65288;&#65289;</span><br></pre></td></tr></table></figure>
+        <h2 id="一、Web开发的基本概念">一、Web开发的基本概念</h2><p>服务器上的WEB资源：<br>静态资源：基本不变的。比如html、css、js<br>动态资源：根据不同环境而不同，动的。动态资源生成静态资源。比如：JSP、ASP<br><a id="more"></a></p>
+<h2 id="二、Web开发需要的服务器">二、Web开发需要的服务器</h2><p>JavaEE:是13种技术的总称。Servlet/JSP属于JavaEE技术的一种<br>常用的服务器：<br>WebLogic:支持JavaEE规范。称之为JavaEE容器：即实现了什么规范的服务器就叫做什么容器。属于重量级服务器。<br>WebSphereAS（Application Server）：支持JavaEE规范<br>JbossAS：支持JavaEE规范。免费<br>Tomcat：支持Servlet/JSP规范。轻量级服务器。</p>
+<p>Java相关规范（接口和抽象类）都是SUN制定</p>
+<h2 id="三、Tomcat的安装与启动遇到的问题(目标：TOmcat能启动)">三、Tomcat的安装与启动遇到的问题(目标：TOmcat能启动)</h2><ol>
+<li>注意：不要把Tocmat装到有中文或空格的目录中。</li>
+<li><p>验证Tomcat是否成功</p>
+<ul>
+<li>进入Tomcat\bin，执行startup.bat</li>
+<li>启动过程中没有出错。最好还要打开浏览器：<code>http://localhost:8080</code>看到猫说明OK</li>
+</ul>
 </li>
+<li><p>启动Tomcat遇到的问题：<br><strong>无法启动</strong>：配置系统环境变量JAVA_HOME=你的JDK的安装目录</p>
+<p> Tips:</p>
+<pre><code>HTTP协议规定，Web应用的默认端口是<span class="number">80</span>
+把Tomcat使用的默认端口<span class="number">8080</span>改为Web应用的默认端口<span class="number">80</span>？
+在Tomcat\conf目录中有一个server<span class="class">.xml</span>
+找到<span class="number">8080</span>改为<span class="number">80</span>，就可以使用默认端口了。
+</code></pre></li>
+<li>Catalina_home=Tomcat的安装目录（不建议使用）</li>
 </ol>
-<p>这是一种很巧妙的形式首先定义了一个匿名的function然后立即调用。<br><strong>Ps:用匿名函数把脚本包起来，可以有效控制全局变量，避免冲突。</strong></p>
-<p>好的 看起来这是很好的解决办法 是不是？现在假设假设A程序员写了一个脚本，然后B程序员想调用A程序员写的脚本里面定义的变量。但是在这种通过匿名函数包裹起来的方式下，是行不通的。这个时候我们应该想想别的对策。</p>
-<ol>
-<li>我们可以使用全局作用域变量来传递需要跨脚本的变量，我们可以在添加全局变量，但是我们要考虑到全句变量的数量问题，所以我们采用hash对象作为全局变量。如下形式：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> GLOBAL=&#123;&#125;;</span><br><span class="line"><span class="comment">//添加的变量方法如下</span></span><br><span class="line">GLOBAL.str=”xxx”;</span><br></pre></td></tr></table></figure>
+<h2 id="四、Tomcat的目录结构（服务器厂商自定义的）">四、Tomcat的目录结构（服务器厂商自定义的）</h2><pre><code>CATALINA_HOME：
+    <span class="keyword">*</span>bin:运行Tomcat的相关命令
+    <span class="keyword">*</span>conf：Tomcat的配置信息所在
+    <span class="keyword">*</span>lib：Tomcat运行需要的jar包
+    <span class="keyword">*</span>logs:TOmcat的运行日志
+    temp：存放临时文件的
+    <span class="keyword">*</span>webapps:Web应用的存放目录。该目录中的每个目录都代表一个应用。
+    work：Tomcat的工作目录
+</code></pre><h2 id="五、JavaWeb应用的目录结构（SUN制定的，有严格要求）必须记住">五、JavaWeb应用的目录结构（SUN制定的，有严格要求）<code>必须记住</code></h2><p>MyApp:(目录，应用的名称)<br>    html<br>        css<br>            a.css<br>        WEB-INF:此目录必须有，且大小必须完全一致。该目录中的资源，用户无法直接访问到。（非常重要）<br>            classes:存放Java类的字节码<br>            lib:存放本应用需要的jar包<br>            web.xml:本应用的配置文件</p>
+<h2 id="六、如何“部署”自己的应用到Tomcat中(重点)">六、如何“部署”自己的应用到Tomcat中<code>(重点)</code></h2><p>方式一：把你的应用拷贝到Tomcat\webapps目录下。<br>方式二：把自己的应用打包成war包，再拷贝到Tomcat\webapps目录下<br>    进入你的应用目录<br>    执行：jar -cvf MyApp.war .</p>
+<h2 id="七、Tomcat组成部分详解：">七、Tomcat组成部分详解：</h2><ul>
+<li><p>虚拟目录：<br>  方式一：（不建议使用，原因就是需要重新启动）</p>
+<pre><code><span class="number">1</span>、修改Tomcat\conf\server.xml，找到&lt;Host <span class="variable">name=</span><span class="string">"localhost"</span>/&gt;元素
+<span class="number">2</span>、在其中增加一个子元素，内容如下：
+    &lt;Context <span class="variable">path=</span><span class="string">"/haha"</span> <span class="variable">docBase=</span><span class="string">"E:\MyApp"</span>/&gt;
+    path:虚拟目录的名称。给用户来访问的
+    docBase:实际应用的存放目录
+<span class="number">3</span>、重新启动Tomcat
+<span class="number">4</span>、访问资源：http://localhost:<span class="number">8080</span>/haha/<span class="number">1</span>.html就是访问E盘下MyApp目录中的<span class="number">1</span>.html
+</code></pre><p>  <code>方式二</code>：</p>
+<pre><code>在Tomcat\conf\[enginename]\[hostname]目录下建立一个特殊的文件，文件扩展名为xml；
+文件的主文件名就是映射的虚拟路径（即<span class="tag">&lt;<span class="title">Context</span> <span class="attribute">path</span>=<span class="value">"/haha"</span> <span class="attribute">docBase</span>=<span class="value">"E:\MyApp"</span>/&gt;</span>中的path）
+增加以下内容：
+<span class="pi">&lt;?xml version="1.0"?&gt;</span>
+<span class="tag">&lt;<span class="title">Context</span> <span class="attribute">docBase</span>=<span class="value">"E:\MyApp"</span>/&gt;</span>
+</code></pre><p>  练习：配置E盘上的MyApp作为默认应用<br>  1、在Tomcat\conf[enginename][hostname]目录下建立一个特殊的文件，文件名ROOT.xml；<br>  2、由于默认应用特殊，也需要重新启动Tomcat<br>  访问MyApp下的1.html<br>  <code>http://locahost:8080/1.html</code></p>
 </li>
-</ol>
-<p>这样就可以添加全局变量了<br>但是在想想要是有很多程序员一起工作每个都添加全局变量那么还是回冲突的所以我么应该设置一个方法用来检测该全局变量是否存在同时存在并且是否重复挂载在GlOBAL下面。</p>
-<ol>
-<li>在这里我们引进命名空间的说法，即每个程序员在写自己的脚本的时候都为自己命名一个命名空间把需要传递的变量挂载在这下面。<br>下面是使用命名空间解决冲突的完整代码：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span>  GLOBAL=&#123;&#125;;</span><br><span class="line">GLOBAL.namespace=<span class="function"><span class="keyword">function</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> arr=str.split(“.”),<span class="number">0</span>=CLOBAL；</span><br><span class="line">   <span class="keyword">for</span>(i=(arr[<span class="number">0</span>] == “GLOBAL”)?<span class="number">1</span> : <span class="number">0</span>; I &lt;arr.length; i++)&#123;</span><br><span class="line">      o[arr[[i]] = o[arr[i]] || &#123;&#125;;</span><br><span class="line">      o =o[arr[i]];</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</ul>
+<ul>
+<li><p>虚拟主机：</p>
 </li>
-</ol>
-<p><strong>Ps:添加必要的注释，可以大大提高代码的可维护性，对于团队合作来说更是十分有必要。通过合理的添加注释以及使用命名空间，可以很好的避免js冲突</strong></p>
+<li><p>连接器:</p>
+</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
       
-        <a  href="http://xiabin.github.io/2014/10/21/javascript/#comments" class="article-comment-link">Comments</a>
+        <a  href="http://xiabin.github.io/2015/07/23/java-note5/#comments" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
      </footer>
   </div>
@@ -134,19 +166,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2014/10/21/js-unified-entrance/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/07/23/java-note6/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          给程序统一的入口
+          HTTP协议
         
       </div>
     </a>
   
   
-    <a href="/2014/10/19/first/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/07/23/java-note4/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hexo 初体验</div>
+      <div class="article-nav-title">Java基础加强</div>
     </a>
   
 </nav>
@@ -157,7 +189,7 @@
 
 <section id="comments">
   <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="cicgbf9qs000gmgdqis1hlpst" data-title="避免js冲突" data-url="http://xiabin.github.io/2014/10/21/javascript/"></div>
+  <div class="ds-thread" data-thread-key="cicgbf9r6000umgdqu39mg2s0" data-title="WEB入门、Tomcat安装" data-url="http://xiabin.github.io/2015/07/23/java-note5/"></div>
 <!-- 多说评论框 end -->
 </section>
 </section>
