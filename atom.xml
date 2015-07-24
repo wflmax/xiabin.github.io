@@ -1,0 +1,897 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <title><![CDATA[Xiabin's Blog]]></title>
+  <subtitle><![CDATA[Good Good Study Day Day Up!!!]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://xiabin.github.io//"/>
+  <updated>2015-07-23T12:39:01.035Z</updated>
+  <id>http://xiabin.github.io//</id>
+  
+  <author>
+    <name><![CDATA[夏彬]]></name>
+    <email><![CDATA[276147613@qq.com]]></email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Servlet中概述相关2]]></title>
+    <link href="http://xiabin.github.io/2015/07/23/java-note8/"/>
+    <id>http://xiabin.github.io/2015/07/23/java-note8/</id>
+    <published>2015-07-23T12:18:31.000Z</published>
+    <updated>2015-07-23T12:39:01.035Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、Servlet中的线程安全问题">一、Servlet中的线程安全问题</h2><pre><code>在Servlet中定义变量，除非特殊要求，尽量使用局部变量。
+如果有需要实例变量时，应做同步处理，且同步代码块尽量包围少的代码。
+</code></pre><h2 id="二、Servlet的配置对象：">二、Servlet的配置对象：</h2><p>ServletConfig：（容器来创建）<br>    作用：代表了Servlet配置中的参数信息。<br>    比如在web.xml中的参数配置如下：<br>        <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet-name</span>&gt;</span>ServletDemo2<span class="tag">&lt;/<span class="title">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet-class</span>&gt;</span>cn.itcast.servlet.ServletDemo2<span class="tag">&lt;/<span class="title">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">init-param</span>&gt;</span><span class="comment">&lt;!-- aaa=bbb --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-name</span>&gt;</span>aaa<span class="tag">&lt;/<span class="title">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-value</span>&gt;</span>bbb<span class="tag">&lt;/<span class="title">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-name</span>&gt;</span>xxx<span class="tag">&lt;/<span class="title">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-value</span>&gt;</span>yyy<span class="tag">&lt;/<span class="title">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="三、ServletContext详解重要">三、ServletContext详解<code>重要</code></h2><ol>
+<li>在应用被服务器加载时就创建ServletContext对象的实例。每一个JavaWeb应用都有唯一的一个ServletContext对象<br>它就代表着当前的应用。</li>
+<li>如何得到ServletContext对象：<code>ServletConfig.getServletContext()</code>;</li>
+<li><p>有什么用？</p>
+<ul>
+<li>ServletContext对象是一个域对象（域对象就是说其内部维护了一个Map<string,object>）<br>  <code>Object getAttribute(String name)</code>:根据名称获取绑定的对象<br>  <code>Enumeration getAttributeNames()</code>:获取ServletContext域中的所有名称<br>  <code>void removeAttribute(String name)</code>:根据名称移除对象<br>  <code>void setAttribute(String name,Object value)</code>:添加或修改对象。</string,object></li>
+<li>实现多个Servlet之间的数据共享</li>
+<li><p>获取WEB应用的初始化参数（应用的全局参数）<br>  在web.xml的根元素下配置一下信息：</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">context-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="title">param-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="title">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">context-param</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>  这些参数就属于整个应用的全局参数，使用ServletContext来读取。</p>
+</li>
+<li>读取资源文件的三种方式：<br>  利用ServletContext.getRealPath():<br>  　　特点：读取应用中任何文件。只能在Web环境下用<br>  利用ResourceBundle读取配置文件<br>  　　特点：可以用在非web环境下。但是只能读取类路径中的properties文件<br>  利用类加载器读取配置文件（专业）<br>  　　特点：可以用在非web环境下。可以读取类路径下的任何文件。<br>插入：ServletAPI中的主要接口或类的核心类图<br>Tips:更改MyEclipse生成的Servlet的模板（8.5）</li>
+</ul>
+<ol>
+<li>关闭你的MyEclipse</li>
+<li>找到MyEclipse的安装目录C:\Program Files\Genuitec<br>3.搜索<em>wizard</em>(com.genuitec.eclipse.wizards_8.5.0.me201003052220.jar)</li>
+<li>打开，找到templates\Servlet.java,这个文件就是MyEclipse生成Servlet的模板代码</li>
+<li>弄出来，做好备份，开始修改。</li>
+</ol>
+</li>
+</ol>
+<h2 id="四、请求和响应对象概述">四、请求和响应对象概述</h2><p>HTTP协议包含请求和响应部分。<br>HttpServletRequest就代表着请求部分<br>HttpServletResponse就代表着响应部分</p>
+<p><strong>学好的关键：HTTP协议。</strong></p>
+<h2 id="五、HttpServletResponse详解｀重要`">五、HttpServletResponse详解｀重要`</h2><pre><code><span class="number">1</span>. 输出中文数据：
+    字节流：
+        out.write<span class="params">(<span class="string">"中文"</span>.getBytes<span class="params">(<span class="string">"UTF-8"</span>)</span>)</span>;有乱码
+        解决办法：
+            方式一：更改浏览器的查看编码（不可取）
+            通知浏览器，使用的码表
+            方式二：response.setHeader<span class="params">(<span class="string">"Content-Type"</span>, <span class="string">"text/html;charset=UTF-8"</span>)</span>;
+            方式三：response.getOutputStream<span class="params">()</span>.write<span class="params">(<span class="string">"&lt;meta http-equiv='Content-Type' content='text/html;charset=UTF-8'&gt;"</span>.getBytes<span class="params">(<span class="string">"UTF-8"</span>)</span>)</span>;
+            <span class="built_in">*</span>方式四：response.setContentType<span class="params">(<span class="string">"text/html;charset=UTF-8"</span>)</span>;<span class="comment">//方式二、三、四都是一样的</span>
+
+    字符流：
+        Servlet中的字符流默认查ISO-<span class="number">8859</span>-<span class="number">1</span>（SUN的Servlet规范要求的）
+        如何更改这个默认的编码呢？response.setCharacterEncoding<span class="params">(<span class="string">"UTF-8"</span>)</span>;
+
+        <span class="comment">//不要忘记通知浏览器的编码</span>
+        `response.setCharacterEncoding<span class="params">(<span class="string">"UTF-8"</span>)</span>;`
+        `response.setHeader<span class="params">(<span class="string">"Content-Type"</span>, <span class="string">"text/html;charset=UTF-8"</span>)</span>;`
+        `PrintWriter out = response.getWriter<span class="params">()</span>;`
+        `out.write<span class="params">(s)</span>;`<span class="comment">//默认查的是ISO-8859-1码表（SUN的Servlet规范要求的）</span>
+
+
+        在字符流输出中文数据时：`response.setContentType<span class="params">(<span class="string">"text/html;charset=UTF-8"</span>)</span>;`
+                有两个作用：通知字符流以`UTF-<span class="number">8</span>`编码输出
+                            通知客户端以`UTF-<span class="number">8</span>`解码显示
+
+
+<span class="number">2</span>. 控制不要缓存
+<span class="number">3</span>. 控制缓存时间
+<span class="number">4</span>. 动态生成随机验证码图片
+<span class="number">5</span>. 定时刷新
+<span class="number">6</span>. 文件下载（中文文件名的文件下载）
+<span class="number">7</span>. HttpServletResponse细节:
+    字节流和字符流不能同时使用，互斥的。
+    通过字符流或字节流输出的数据并不是直接打给浏览器的。而是把数据写到response对象的缓存中的。服务器从缓存中取出数据，按照HTTP协议的响应格式输出给浏览器。
+    如果你调用的response的输出流没有主动关闭，服务器会替你关的。
+</code></pre><h2 id="六、HttpServletRequest详解｀重要`">六、HttpServletRequest详解｀重要`</h2><pre><code>代表着客户端的请求。要客户的信息只要找这个对象即可，该对象由容器创建。
+学习关键：时刻记住HTTP协议的请求部分的具体内容。
+
+<span class="number">1.</span> 常用简单方法
+<span class="number">2.</span> 获取请求消息头
+<span class="number">3.</span> 获取请求参数（内省）
+<span class="number">4.</span> 常用表单数据的获取
+    表单输入域类型：
+        radio checkbox,即使表单中有对应名称输入域，如果一个不选择，则什么数据不会带给服务器。（注意空指针异常）
+        如果选择了其中的一个或多个，则把他们的value的取值提交给服务器。
+        如果选择了其中的一个或多个，他们又没有value取值，则提交给服务器的值是<span class="literal">on</span>.
+    请求参数的编码：
+        浏览器当前使用什么编码，就以什么编码提交请求参数。`<span class="javascript">&lt;meta http-equiv=<span class="string">"content-type"</span> content=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span>`
+
+        `<span class="javascript">request.setCharacterEncoding(编码)</span>`:通知程序，客户端提交的数据使用的编码。但是只对POST请求方式有效
+
+        如果是get请求提交数据，编码就是ISO-<span class="number">8859</span>-<span class="number">1</span>
+
+    Tips：目前采用POST提交方式。
+
+<span class="number">5.</span> 域对象：
+    ServletRequest也是一个域对象（内部维护了一个Map&lt;String,Object&gt;）
+        `<span class="javascript"><span class="built_in">Object</span> getAttribute(Stirng name):</span>`
+        `<span class="javascript"><span class="keyword">void</span> setAttribute(<span class="built_in">String</span> name,<span class="built_in">Object</span> value):</span>`
+        `<span class="javascript"><span class="keyword">void</span> removeAttribute(<span class="built_in">String</span> name):</span>`
+
+<span class="number">6.</span> 请求转发和重定向
+    请求转发借助于RequestDispatcher
+    如何得到RequestDispatcher对象：
+        方式一：ServletContext.getRequestDispatcher(目标资源的URI);
+        方式二：ServletRequest.getRequestDispatcher(目标资源的URI);
+        区别：
+            方式一中的目标资源的URI必须以<span class="string">"/"</span>开头，否则报错，此<span class="string">"/"</span>就表示的是当前应用（绝对路径表示法）
+            方式二中的目标资源的URI如果以<span class="string">"/"</span>开头，就表示的是当前应用（绝对路径表示法）。如果不以<span class="string">"/"</span>开头，就表示相对路径。
+
+
+<span class="number">7.</span> 转发和重定向细节（实际开发中知道一个原则）`<span class="javascript">了解原则</span>`
+    请求转发：由源组件转发到目标组件时，容器会清空源组件输出的数据。因此，用户只会看到目标组件输出的页面结果。
+                但是，响应头信息是不清空的。
+    编码原则：不要在转发前后向页面输出数据，也不要关闭输出流。（做无用功）
+<span class="number">8.</span> 包含：（动态包含）`<span class="javascript">了解原则</span>`
+    由源组件包含到目标组件时，容器会清空目标组件的头。因此，源组件设置的头才有效。
+                但是，响应体信息是不清空的。
+    编码原则：不要在目标组件中设置响应头。（做无用功）
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="一、Servlet中的线程安全问题">一、Servlet中的线程安全问题</h2><pre><code>在Servlet中定义变量，除非特殊要求，尽量使用局部变量。
+如果有需要实例变量时，应做同步处理，且同步代码块尽量包围少的代码。
+</code></pre><h2 id="二、Servlet的配置对象：">二、Servlet的配置对象：</h2><p>ServletConfig：（容器来创建）<br>    作用：代表了Servlet配置中的参数信息。<br>    比如在web.xml中的参数配置如下：<br>        <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet-name</span>&gt;</span>ServletDemo2<span class="tag">&lt;/<span class="title">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet-class</span>&gt;</span>cn.itcast.servlet.ServletDemo2<span class="tag">&lt;/<span class="title">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">init-param</span>&gt;</span><span class="comment">&lt;!-- aaa=bbb --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-name</span>&gt;</span>aaa<span class="tag">&lt;/<span class="title">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-value</span>&gt;</span>bbb<span class="tag">&lt;/<span class="title">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-name</span>&gt;</span>xxx<span class="tag">&lt;/<span class="title">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">param-value</span>&gt;</span>yyy<span class="tag">&lt;/<span class="title">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure></p>]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[JSP概述]]></title>
+    <link href="http://xiabin.github.io/2015/07/23/java-note1/"/>
+    <id>http://xiabin.github.io/2015/07/23/java-note1/</id>
+    <published>2015-07-23T12:10:36.000Z</published>
+    <updated>2015-07-23T09:57:16.478Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、JSP概述">一、JSP概述</h2><ol>
+<li>JSP:Java Server Pages(运行在服务器端的页面)。就是Servlet。<br>学习JSP学好的关键：时刻联想到Servlet即可。</li>
+<li>JSP的原理<br><br>JSP会被Tomcat翻译成一个Servlet。该Servlet在Tomcat\work\catalina\locahot\day09.…</li>
+<li>JSP、Servlet开发的最佳实践:<br> <br>Servlet：一般作为控制组件，处理业务逻辑<br> <br>JSP：一般作为显示组件，显示数据<a id="more"></a>
+<h2 id="二、JSP的语法">二、JSP的语法</h2></li>
+<li>JSP的模板元素：(先写HTML)<br><br>就是JSP中的那些HTML标记<br><br>作用：页面布局和美化</li>
+<li>JSP的Java脚本表达式：<br><br>作用：输出数据到页面上<br><br>语法：<code>&lt;%=表达式%&gt;</code>(实际上就是调用输出流打印到页面上)</li>
+<li>JSP中的Java脚本片段：(实际开发中，应做到JSP中不能出现一行Java脚本片段)<br><br>作用：书写Java代码逻辑<br><br>语法：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">	语句<span class="number">1</span>;</span><br><span class="line">	语句<span class="number">2</span>;</span><br><span class="line"> %&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><br>原理：其中的语句会原封不动的被服务器翻译到对应的Servlet的service方法中。</p>
+<ol>
+<li>JSP的声明：（了解其原理）<br><br>作用：定义类的成员<br><br>语法：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;%!</span><br><span class="line">    你的Java代码</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>5.JSP的注释：<br><br>作用：注释Java脚本代码<br><br>语法：<code>&lt;%--这是注释--%&gt;</code></p>
+<h2 id="三、JSP的指令:给JSP引擎用的（服务器用的）">三、JSP的指令:给JSP引擎用的（服务器用的）</h2><p>基本的语法格式：<code>&lt;%@ 指令名称 属性1=&quot;值1&quot; 属性2=&quot;值2&quot; ....%&gt;</code><br><br>作用：告诉服务，该如何处理JSP中除了指令之外的内容的。<br></p>
+<ol>
+<li><p><strong>page</strong><br><br>作用：定义JSP页面的各种属性<br><br>属性：<br><br> <code>language:</code>指示JSP页面中使用脚本语言。默认值java，目前只支持java。<br> <code>extends：</code>指示JSP对应的Servlet类的父类。不要修改。<br> <br><code>import：</code>导入JSP中的Java脚本使用到的类或包。（如同Java中的import语句）<br> SP引擎自动导入以下包中的类：<br> <code>javax.servlet.*</code><br> <code>javax.servlet.http.*</code><br> <code>.servlet.jsp.*</code></p>
+<pre><code>注意：一个<span class="preprocessor"><span class="keyword">import</span>属性可以导入多个包，用逗号分隔。</span>
+</code></pre><p> <code>sessioin:</code>指示JSP页面是否创建HttpSession对象。默认值是true。可选值true|false.<br> <code>buffer：</code>指示JSP用的输出流的缓存大小.默认值是8Kb。<br> <code>autoFlus：</code>自动刷新输出流的缓存。<br> <code>isThreadSafe：</code>指示页面是否是线程安全的（过时的）。默认是true。</p>
+<pre><code><span class="literal">true</span>：不安全的。
+<span class="literal">false</span>：安全的。指示JSP对应的Servlet实现SingleThreadModel接口。
+</code></pre><p> <code>errorPage:</code>指示当前页面出错后转向（转发）的页面。<br> 目标页面如果以”/“（当前应用）就是绝对路径。</p>
+<p> 配置全局错误提示页面：<br> web.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">error-page</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">exception-type</span>&gt;</span>java.lang.Exception<span class="tag">&lt;/<span class="title">exception-type</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">location</span>&gt;</span>/error.jsp<span class="tag">&lt;/<span class="title">location</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">error-page</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">error-page</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">error-code</span>&gt;</span>404<span class="tag">&lt;/<span class="title">error-code</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">location</span>&gt;</span>/404.jsp<span class="tag">&lt;/<span class="title">location</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">error-page</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> <code>isErrorPage:</code>指示当前页面是否产生Exception对象。<br><br> <code>contentType：</code>指定当前页面的MIME类型。作用与Servlet中的response.setContentType()作用完全一致<br> <br><code>pageEncoding：</code>通知引擎读取JSP时采用的编码（因为要翻译）<br> 还有contentType属性的作用。<br><br> <code>isELIgnored:</code>是否忽略EL表达式。${1+1}。默认值是false。</p>
+<p>page指令最简单的使用方式：<code>&lt;%@ page pageEncoding=&quot;UTF-8&quot;%&gt;</code></p>
+</li>
+<li><p><strong>include</strong>（静态包含,开发中能用静的不用动的）<br> <br>作用：包含其他的组件。<br> <br>语法：&lt;%@include file=””%&gt;file指定要包含的目标组件。路径如果以”/“（当前应用）就是绝对路径。<br> <br>原理：把目标组件的内容加到源组件中，输出结果。</p>
+<p> 动态包含：<br> 采用动作元素：<jsp:include page="">路径如果以”/“（当前应用）就是绝对路径。</jsp:include></p>
+</li>
+<li><p><strong>taglib</strong><br><br>作用：引入外部的标签<br><br>语法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@taglib uri=<span class="string">"标签名称空间"</span> prefix=<span class="string">"前缀"</span>%&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">%@</span> <span class="attribute">taglib</span> <span class="attribute">uri</span>=<span class="value">"http://java.sun.com/jsp/jstl/core"</span> <span class="attribute">prefix</span>=<span class="value">"c"</span><span class="value">%</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="四、JSP的内置对象（9个JSP内置对象）">四、JSP的内置对象（9个JSP内置对象）</h2><pre><code>JSP的内置对象引用名称            对应的类型
+
+request                            HttpServletRequest
+response                        HttpServletResponse
+session                            <span class="function"><span class="title">HttpSession</span><span class="params">(有开关的：page指令的session属性的取值)</span></span>
+application                        ServletContext
+config                            ServletConfig
+page                            <span class="function"><span class="title">this</span><span class="params">(当前Servlet对象)</span></span>
+exception                        java<span class="class">.lang</span><span class="class">.Throwable</span>（有开关的：page指令的isErrorPage属性改为true）
+
+out                                JspWriter
+pageContext                        javax<span class="class">.servlet</span><span class="class">.jsp</span><span class="class">.PageContext</span>非常重要
+</code></pre><p>有三大作用：</p>
+<ol>
+<li><p>本身是一个域对象。同时还能操作其他三个域对象（PageContext ServletRequest HttpSession  ServletContext）<br> <br>本身表示的域范围是本页面。    <br></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setAttribute</span><span class="params">(String name,Object value)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title">removeAttribute</span><span class="params">(String name)</span></span><br><span class="line">Object <span class="title">getAttribute</span><span class="params">(String name)</span></span></span><br></pre></td></tr></table></figure>
+<p> 操作其他的三个域对象  <br></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setAttribute</span><span class="params">(String name,Object value,<span class="keyword">int</span> scope)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title">removeAttribute</span><span class="params">(String name,<span class="keyword">int</span> scope)</span></span><br><span class="line">Object <span class="title">getAttribute</span><span class="params">(String name,<span class="keyword">int</span> scope)</span></span></span><br></pre></td></tr></table></figure>
+<p> 参数int scope是由PageContext类提供的静态变量规定的。<br> <code>PageContext.PAGE_SCOPE:</code>页面范围（是PageContext本身中的那个Map，代号page）  <br><br> <code>PageContext.REQUEST_SCOPE:</code>请求范围（是ServletRequest中的那个Map，代号request）  <br><br> <code>PageContext.SESSION_SCOPE:</code>请求范围（是HttpSession中的那个Map，代号session）  <br>    PageContext.APPLICATION_SCOPE:请求范围（是ServletContext中的那个Map，代号application）  <br><br> <code>（非常有用）Object findAttribute(String name):</code>依次按照page request session application范围搜索指定名称的对象，找到为止。  <br></p>
+</li>
+<li><p>获取其他8个隐式对象</p>
+</li>
+<li>提供了转发和包含的方便方法<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RequestDispatcher rd = request.getRequestDispatcher(<span class="string">"/url"</span>);</span><br><span class="line">rd.forward(request,response);</span><br><span class="line">pageContext.forward(<span class="string">"url"</span>);</span><br><span class="line">pageContext.include(<span class="string">"url"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="五、四大域对象(两个资源之间互传数据)">五、四大域对象(两个资源之间互传数据)</h2><table>
+<thead>
+<tr>
+<th>JSP中隐式对象的名称</th>
+<th style="text-align:center">范围名称</th>
+<th style="text-align:right">具体的类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pageContext</td>
+<td style="text-align:center">page</td>
+<td style="text-align:right">javax.servlet.jsp.PageContext</td>
+</tr>
+<tr>
+<td>request</td>
+<td style="text-align:center">request</td>
+<td style="text-align:right">javax.servlet.ServletRequest  （显示完数据就没有用了）</td>
+</tr>
+<tr>
+<td>session</td>
+<td style="text-align:center">session</td>
+<td style="text-align:right">javax.servlet.http.HttpSession (显示完数据了，过一会自己还要用)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="六、JSP常用的动作元素">六、JSP常用的动作元素</h2><pre><code><span class="tag">&lt;<span class="title">jsp:include</span>/&gt;</span>
+<span class="tag">&lt;<span class="title">jsp:forward</span>/&gt;</span>
+<span class="tag">&lt;<span class="title">jsp:param</span>/&gt;</span>:在包含和转发时，利用该标签传递请求参数
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="一、JSP概述">一、JSP概述</h2><ol>
+<li>JSP:Java Server Pages(运行在服务器端的页面)。就是Servlet。<br>学习JSP学好的关键：时刻联想到Servlet即可。</li>
+<li>JSP的原理<br/><br>JSP会被Tomcat翻译成一个Servlet。该Servlet在Tomcat\work\catalina\locahot\day09.…</li>
+<li>JSP、Servlet开发的最佳实践:<br> <br>Servlet：一般作为控制组件，处理业务逻辑<br> <br>JSP：一般作为显示组件，显示数据]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Servlet概述]]></title>
+    <link href="http://xiabin.github.io/2015/07/23/java-note7/"/>
+    <id>http://xiabin.github.io/2015/07/23/java-note7/</id>
+    <published>2015-07-23T12:08:53.000Z</published>
+    <updated>2015-07-23T14:20:36.170Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、Servlet概述">一、Servlet概述</h2><ol>
+<li>Servlet是SUN公司制定的一套开发动态网页的技术。</li>
+<li>JavaEE相关的类，包名一般都是以javax开头</li>
+</ol>
+<h2 id="二、编写第一个Servlet案例应用重要">二、编写第一个Servlet案例应用<code>重要</code></h2><ol>
+<li><p>建立一个标准的JavaWeb应用目录</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FirstApp:</span><br><span class="line">        WEB-INF:</span><br><span class="line">            classes：</span><br><span class="line">            lib:</span><br><span class="line">            web.xml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入classes目录，建立一个文本文件（所有的Servlet类都必须间接或直接实现javax.servlet.Servlet接口）</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.itcast.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FirstServlet</span> <span class="keyword">extends</span> <span class="title">GenericServlet</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest req,</span><br><span class="line">                             ServletResponse res)</span></span><br><span class="line">                      <span class="keyword">throws</span> ServletException,</span><br><span class="line">                             java.io.IOException</span>&#123;</span><br><span class="line">        OutputStream out = res.getOutputStream();</span><br><span class="line">        out.write(<span class="string">"Hello Servlet"</span>.getBytes());</span><br><span class="line">        out.close();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <a id="more"></a>
+</li>
+<li><p>进入classes目录，对FirstServlet进行编译：<br> 前提：把s<code>ervlet-api.jar</code>加入到你的构建路径中.<code>set classpath=%classpath%;C:\apache-tomcat-6.0.35\lib\servlet-api.jar</code><br> 执行：<code>javac -d . FirsetServlet.java</code></p>
+</li>
+<li><p>修改web.xml，对FirsetServlet进行url地址映射，配置如下：</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">web-app</span> <span class="attribute">xmlns</span>=<span class="value">"http://java.sun.com/xml/ns/javaee"</span></span><br><span class="line">   <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">   <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span></span><br><span class="line">   <span class="attribute">version</span>=<span class="value">"2.5"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">servlet-name</span>&gt;</span>FirstServlet<span class="tag">&lt;/<span class="title">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">servlet-class</span>&gt;</span>cn.itcast.servlet.FirstServlet<span class="tag">&lt;/<span class="title">servlet-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="title">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">servlet-name</span>&gt;</span>FirstServlet<span class="tag">&lt;/<span class="title">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">url-pattern</span>&gt;</span>/hello<span class="tag">&lt;/<span class="title">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">servlet-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把你的应用部署到Tomcat中。</p>
+</li>
+<li>访问地址：<code>http://localhost:8080/FirstApp/hello</code>就可以看到写的Servlet类的输出结果了。</li>
+</ol>
+<h2 id="三、Servlet的生命周期重要">三、Servlet的生命周期<code>重要</code></h2><p>容器最终要调用service方法为客户进行服务<br>1 .Servlet接口中的常用方法：</p>
+<pre><code>- `public void <span class="function"><span class="title">init</span><span class="params">(ServletConfig config)</span></span>`：初始化。Servlet类被实例化后就执行，且执行一次。由容器进行调用
+- `public void <span class="function"><span class="title">destroy</span><span class="params">()</span></span>`：销毁Servlet对象。由容器进行调用
+</code></pre><p>在内存中一个Servlet只有一个实例。针对不同的用户请求，容器采用多线程的机制调用service方法的。</p>
+<p>Servlet实例对象和初始化方法，默认情况下，只有第一次访问时才执行，且只执行一次。</p>
+<p>希望在应用被Tomcat加载完毕后（此时还没有任何人访问），就实例化并完成初始化Servlet的工作？<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet-name</span>&gt;</span>FirstServlet<span class="tag">&lt;/<span class="title">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">servlet-class</span>&gt;</span>cn.itcast.servlet.FirstServlet<span class="tag">&lt;/<span class="title">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">load-on-startup</span>&gt;</span>2<span class="tag">&lt;/<span class="title">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="四-_Servlet的孩子们（模板方法设计模式）重要">四. Servlet的孩子们（模板方法设计模式）<code>重要</code></h2><p>如果设计与HTTP协议有关的Servlet，一般选择集成javax.servlet.http.HttpServlet.<br>不要覆盖其中的service(ServletRequest req,ServletResponse resp)方法，而应该覆盖掉，doXXX方法。<br>doXXX就是根据你的请求方式来的。</p>
+<p>HttpServlet中的service方法是典型的模板方法设计模式的具体应用。</p>
+<h2 id="五、Servlet配置">五、Servlet配置</h2><ol>
+<li>一个Servlet可以被映射到多个URL地址上</li>
+<li>URL地址映射还支持通配符<em><br> 方式一：以</em>开头，以扩展名结尾。比如<code>&lt;url-pattern&gt;*.do&lt;/url-pattern&gt;</code><br> 方式二：以/前缀开头，以<em>结尾。 比如`<url-pattern>/action/</url-pattern></em>`</li>
+<li>多个Servlet使用通配符时，有可能有多个配置的Servlet，到底执行哪一个？<br> 原则：优先级<pre><code>-<span class="ruby"> 绝对匹配
+</span>-<span class="ruby"> 以<span class="string">"/"</span>开头（方式二）要比<span class="string">"*"</span>开头（方式一）优先级高
+</span>-<span class="ruby"> 都以<span class="string">"/"</span>开头，还是有多个匹配，找最匹配的</span>
+</code></pre></li>
+<li>如果一个Servlet的映射为一个”/“,就称之为默认的Servlet，它负责处理没有映射路径的URL请求的响应。</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="一、Servlet概述">一、Servlet概述</h2><ol>
+<li>Servlet是SUN公司制定的一套开发动态网页的技术。</li>
+<li>JavaEE相关的类，包名一般都是以javax开头</li>
+</ol>
+<h2 id="二、编写第一个Servlet案例应用重要">二、编写第一个Servlet案例应用<code>重要</code></h2><ol>
+<li><p>建立一个标准的JavaWeb应用目录</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FirstApp:</span><br><span class="line">        WEB-INF:</span><br><span class="line">            classes：</span><br><span class="line">            lib:</span><br><span class="line">            web.xml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入classes目录，建立一个文本文件（所有的Servlet类都必须间接或直接实现javax.servlet.Servlet接口）</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.itcast.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FirstServlet</span> <span class="keyword">extends</span> <span class="title">GenericServlet</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest req,</span><br><span class="line">                             ServletResponse res)</span></span><br><span class="line">                      <span class="keyword">throws</span> ServletException,</span><br><span class="line">                             java.io.IOException</span>&#123;</span><br><span class="line">        OutputStream out = res.getOutputStream();</span><br><span class="line">        out.write(<span class="string">"Hello Servlet"</span>.getBytes());</span><br><span class="line">        out.close();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[HTTP协议]]></title>
+    <link href="http://xiabin.github.io/2015/07/23/java-note6/"/>
+    <id>http://xiabin.github.io/2015/07/23/java-note6/</id>
+    <published>2015-07-23T11:44:55.000Z</published>
+    <updated>2015-07-23T14:20:36.154Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、HTTP协议">一、HTTP协议</h2><ol>
+<li><p>协议的作用及版本</p>
+<ul>
+<li>HTTP是Hyper Text Transfer Protocol（超文本—html传输协议）。</li>
+<li>HTTP协议的作用用户描述客户端与服务器间的数据传递的。</li>
+<li>Http协议的版本：<ul>
+<li>特点：每次请求服务器上的资源都要建立新的连接，响应完毕后都会关闭连接。是无状态的协议。</li>
+<li>特点：在一次TCP/IP连接的基础上可以发出多次请求和得到多次的响应。比1.0多了一些请求和响应头。<a id="more"></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>协议的组成</p>
+<ol>
+<li><p>请求部分：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /App1/1.html HTTP/1.1</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">username=admin&amp;password=123</span><br></pre></td></tr></table></figure>
+<p>请求部分由三部分组成的：</p>
+<ul>
+<li>请求行：位于第一行</li>
+<li>请求消息头：从第二行开始至第一个空行结束</li>
+<li>请求正文：从第一个空行之后的都是正文</li>
+</ul>
+</li>
+<li><p>响应部分：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Server: Apache-Coyote/1.1</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">ETag: W/"65-1366335797484"</span><br><span class="line">Last-Modified: Fri, 19 Apr 2013 01:43:17 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 65</span><br><span class="line">Date: Fri, 19 Apr 2013 02:06:23 GMT</span><br><span class="line">Warnning：w1</span><br><span class="line">Warnning: w2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">hello http</span><br><span class="line"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"b.html"</span>&gt;</span>click<span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"1.jpg"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>响应部分由三部分组成的：</p>
+<ul>
+<li>响应行：位于第一行</li>
+<li>响应消息头：从第二行开始至第一个空行结束</li>
+<li>响应正文：从第一个空行之后的都是正文</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>协议详细讲解<br>请求行：<code>GET /App1/1.html HTTP/1.1</code></p>
+<pre><code>GET：请求方式。默认的请求方式。其他常用的请求方式还有POST。
+<span class="code">    GET的特点：默认的请求方式。</span>
+<span class="code">        /App1/c.html?username=sdsfds&amp;password=234324</span>
+<span class="code">        把表单的请求的数据放在了请求的URI的后面。?username=sdsfds&amp;password=234324</span>
+<span class="code">        这样不好:暴露数据；请求行长度有限。</span>
+<span class="code">    POST的特点(经常使用的)：借助HTML中的form表单。&lt;form action="c.html" method="post"&gt;</span>
+<span class="header">        请求参数出现在正文部分。长度木有限制。相对安全。
+---------------------------</span>
+<span class="header">/App1/1.html:请求的资源的URI。
+---------------------------</span>
+HTTP/1.1：客户端使用的协议的版本
+</code></pre><p>响应行：<code>HTTP/1.1 200 OK</code></p>
+<pre><code>HTTP/1.1：服务器用的协议版本
+200：响应码。代表服务器处理的结果的一种表示
+200：正常
+<span class="number">302/307</span>：重定向
+304:服务器的资源没有被修改
+404：请求的资源不存在
+500：服务器报错了
+OK：响应码描述
+</code></pre><p>请求消息头：向服务器传递附加信息</p>
+<ul>
+<li><code>Accept:</code>通知服务器，浏览器可以接受的MIME类型。（文件系统中用文件扩展名区分数据的类型。网络上用MIME类型来区分数据类型。Tomcat\conf\web.mxl）<br> 　　MIME类型名称：大类型/小类型</li>
+<li>`Accept-Charset:``通知服务器，浏览器支持的字符集</li>
+<li><code>Accept-Encoding:</code>通知服务器，浏览器能够解码的数据压缩方式。比如：gzip</li>
+<li><code>Accept-language:</code>通知服务器，所希望的语言</li>
+<li><code>Host：</code>请求的主机和端口</li>
+<li><code>*Referer：</code>是一个URL地址。取值是当前页面之前的那个页面地址的。防盗链</li>
+<li><code>*Content-Type:</code>通知服务器，请求正文的MIME类型。<br>　　取值：application/x-www-form-urlencoded默认值<br>　　对应的是form表单的enctype属性</li>
+<li><code>If-Modified-Since:</code>通知服务器，缓存的文件的最后修改时间。</li>
+<li><code>User-Agent:</code>通知服务器，浏览器类型.</li>
+<li><code>Content-Length:</code>表示请求消息正文的长度</li>
+<li><code>Connection:</code>表示是否需要持久连接。如果服务器看到这里的值为“Keep -Alive”，或者看到请求使用的是HTTP 1.1（HTTP 1.1默认进行持久连接</li>
+<li><code>*****Cookie:</code>这是最重要的请求头信息之一（会话有关）</li>
+</ul>
+<p>响应消息头：</p>
+<ul>
+<li><code>*Location:</code>通知客户端，指示新的资源的位置（结合302/307来用。请求重定向）</li>
+<li><code>Server:</code>通知客户端，服务器的类型</li>
+<li><code>*Content-Encoding:</code>通知客户端，响应正文的压缩编码方式。常用的是gzip。</li>
+<li><code>*Content-Length：</code>通知客户端响应正文的数据大小</li>
+<li><code>*Content-Type:</code>通知客户端响应正文的MIME类型</li>
+<li><code>*Refresh：</code>让浏览器自动刷新。取值为整数（刷新的时间间隔，单位是秒）<br>　　Refresh:3<br>　　Refresh:3;URL=其他资源的URI</li>
+<li><code>*Content-Disposition：</code>通知客户端，以下载的方式打开资源。<br>　　Content-Disposition：attachment;filename=1.jpg</li>
+<li><code>*****Set-Cookie:</code>SS=Q0=5Lb_nQ; path=/search服务器端发送的Cookie（会话有关）</li>
+<li><code>*Expires:</code> -1             网页的有效时间。单位是毫秒</li>
+<li><code>*Cache-Control:</code> no-cache (1.1)</li>
+<li><code>*Pragma:</code> no-cache   (1.0)    通知客户端不要缓存</li>
+</ul>
+</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="一、HTTP协议">一、HTTP协议</h2><ol>
+<li><p>协议的作用及版本</p>
+<ul>
+<li>HTTP是Hyper Text Transfer Protocol（超文本—html传输协议）。</li>
+<li>HTTP协议的作用用户描述客户端与服务器间的数据传递的。</li>
+<li>Http协议的版本：<ul>
+<li>特点：每次请求服务器上的资源都要建立新的连接，响应完毕后都会关闭连接。是无状态的协议。</li>
+<li>特点：在一次TCP/IP连接的基础上可以发出多次请求和得到多次的响应。比1.0多了一些请求和响应头。]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[WEB入门、Tomcat安装]]></title>
+    <link href="http://xiabin.github.io/2015/07/23/java-note5/"/>
+    <id>http://xiabin.github.io/2015/07/23/java-note5/</id>
+    <published>2015-07-23T11:31:04.000Z</published>
+    <updated>2015-07-23T14:20:36.162Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、Web开发的基本概念">一、Web开发的基本概念</h2><p>服务器上的WEB资源：<br>静态资源：基本不变的。比如html、css、js<br>动态资源：根据不同环境而不同，动的。动态资源生成静态资源。比如：JSP、ASP<br><a id="more"></a></p>
+<h2 id="二、Web开发需要的服务器">二、Web开发需要的服务器</h2><p>JavaEE:是13种技术的总称。Servlet/JSP属于JavaEE技术的一种<br>常用的服务器：<br>WebLogic:支持JavaEE规范。称之为JavaEE容器：即实现了什么规范的服务器就叫做什么容器。属于重量级服务器。<br>WebSphereAS（Application Server）：支持JavaEE规范<br>JbossAS：支持JavaEE规范。免费<br>Tomcat：支持Servlet/JSP规范。轻量级服务器。</p>
+<p>Java相关规范（接口和抽象类）都是SUN制定</p>
+<h2 id="三、Tomcat的安装与启动遇到的问题(目标：TOmcat能启动)">三、Tomcat的安装与启动遇到的问题(目标：TOmcat能启动)</h2><ol>
+<li>注意：不要把Tocmat装到有中文或空格的目录中。</li>
+<li><p>验证Tomcat是否成功</p>
+<ul>
+<li>进入Tomcat\bin，执行startup.bat</li>
+<li>启动过程中没有出错。最好还要打开浏览器：<code>http://localhost:8080</code>看到猫说明OK</li>
+</ul>
+</li>
+<li><p>启动Tomcat遇到的问题：<br><strong>无法启动</strong>：配置系统环境变量JAVA_HOME=你的JDK的安装目录</p>
+<p> Tips:</p>
+<pre><code>HTTP协议规定，Web应用的默认端口是<span class="number">80</span>
+把Tomcat使用的默认端口<span class="number">8080</span>改为Web应用的默认端口<span class="number">80</span>？
+在Tomcat\conf目录中有一个server<span class="class">.xml</span>
+找到<span class="number">8080</span>改为<span class="number">80</span>，就可以使用默认端口了。
+</code></pre></li>
+<li>Catalina_home=Tomcat的安装目录（不建议使用）</li>
+</ol>
+<h2 id="四、Tomcat的目录结构（服务器厂商自定义的）">四、Tomcat的目录结构（服务器厂商自定义的）</h2><pre><code>CATALINA_HOME：
+    <span class="keyword">*</span>bin:运行Tomcat的相关命令
+    <span class="keyword">*</span>conf：Tomcat的配置信息所在
+    <span class="keyword">*</span>lib：Tomcat运行需要的jar包
+    <span class="keyword">*</span>logs:TOmcat的运行日志
+    temp：存放临时文件的
+    <span class="keyword">*</span>webapps:Web应用的存放目录。该目录中的每个目录都代表一个应用。
+    work：Tomcat的工作目录
+</code></pre><h2 id="五、JavaWeb应用的目录结构（SUN制定的，有严格要求）必须记住">五、JavaWeb应用的目录结构（SUN制定的，有严格要求）<code>必须记住</code></h2><p>MyApp:(目录，应用的名称)<br>    html<br>        css<br>            a.css<br>        WEB-INF:此目录必须有，且大小必须完全一致。该目录中的资源，用户无法直接访问到。（非常重要）<br>            classes:存放Java类的字节码<br>            lib:存放本应用需要的jar包<br>            web.xml:本应用的配置文件</p>
+<h2 id="六、如何“部署”自己的应用到Tomcat中(重点)">六、如何“部署”自己的应用到Tomcat中<code>(重点)</code></h2><p>方式一：把你的应用拷贝到Tomcat\webapps目录下。<br>方式二：把自己的应用打包成war包，再拷贝到Tomcat\webapps目录下<br>    进入你的应用目录<br>    执行：jar -cvf MyApp.war .</p>
+<h2 id="七、Tomcat组成部分详解：">七、Tomcat组成部分详解：</h2><ul>
+<li><p>虚拟目录：<br>  方式一：（不建议使用，原因就是需要重新启动）</p>
+<pre><code><span class="number">1</span>、修改Tomcat\conf\server.xml，找到&lt;Host <span class="variable">name=</span><span class="string">"localhost"</span>/&gt;元素
+<span class="number">2</span>、在其中增加一个子元素，内容如下：
+    &lt;Context <span class="variable">path=</span><span class="string">"/haha"</span> <span class="variable">docBase=</span><span class="string">"E:\MyApp"</span>/&gt;
+    path:虚拟目录的名称。给用户来访问的
+    docBase:实际应用的存放目录
+<span class="number">3</span>、重新启动Tomcat
+<span class="number">4</span>、访问资源：http://localhost:<span class="number">8080</span>/haha/<span class="number">1</span>.html就是访问E盘下MyApp目录中的<span class="number">1</span>.html
+</code></pre><p>  <code>方式二</code>：</p>
+<pre><code>在Tomcat\conf\[enginename]\[hostname]目录下建立一个特殊的文件，文件扩展名为xml；
+文件的主文件名就是映射的虚拟路径（即<span class="tag">&lt;<span class="title">Context</span> <span class="attribute">path</span>=<span class="value">"/haha"</span> <span class="attribute">docBase</span>=<span class="value">"E:\MyApp"</span>/&gt;</span>中的path）
+增加以下内容：
+<span class="pi">&lt;?xml version="1.0"?&gt;</span>
+<span class="tag">&lt;<span class="title">Context</span> <span class="attribute">docBase</span>=<span class="value">"E:\MyApp"</span>/&gt;</span>
+</code></pre><p>  练习：配置E盘上的MyApp作为默认应用<br>  1、在Tomcat\conf[enginename][hostname]目录下建立一个特殊的文件，文件名ROOT.xml；<br>  2、由于默认应用特殊，也需要重新启动Tomcat<br>  访问MyApp下的1.html<br>  <code>http://locahost:8080/1.html</code></p>
+</li>
+</ul>
+<ul>
+<li><p>虚拟主机：</p>
+</li>
+<li><p>连接器:</p>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="一、Web开发的基本概念">一、Web开发的基本概念</h2><p>服务器上的WEB资源：<br>静态资源：基本不变的。比如html、css、js<br>动态资源：根据不同环境而不同，动的。动态资源生成静态资源。比如：JSP、ASP<br>]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Java基础加强]]></title>
+    <link href="http://xiabin.github.io/2015/07/23/java-note4/"/>
+    <id>http://xiabin.github.io/2015/07/23/java-note4/</id>
+    <published>2015-07-23T11:23:30.000Z</published>
+    <updated>2015-07-23T14:20:36.166Z</updated>
+    <content type="html"><![CDATA[<ol>
+<li><p>JDK7.0介绍<br>新特性</p>
+</li>
+<li><p>静态导入(了解)<br>作用：导入类中的静态成员<br>语法：<code>import static java.lang.System.out;</code><br>或者<code>import static java.lang.System.*;</code></p>
+ <a id="more"></a></li>
+<li><p>自动装箱和拆箱<br>基本类型——&gt;包装类型：装箱<br>包装类型——&gt;基本类型：拆箱<br>高速缓存：true、false、byte、介于~128—&gt;+127间的整数 、介于\u0000到\u007F间的字符<br>因此这些基本类型的包装类对象，是同一个对象。</p>
+</li>
+<li><p>增强for循环：<br> 设计的本意：抛弃迭代器<br> 增强for循环只能遍历数组和实现了Iteratable接口的对象。<br> 语法：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(元素的类型 变量名:数组或实现了Iteratable接口的对象)&#123;</span><br><span class="line">    System.out.println(变量名);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 增强for循环的特点：只适合取数据。要想在遍历时改元素的值，请使用传统for循环。</p>
+</li>
+<li><p>可变参数<br>可变参数就当做是数组即可。<br>一个方法的参数列表中，只能有一个可变参数，且必须放在最后。</p>
+</li>
+<li><p>枚举<br>枚举可以定义构造方法<br>枚举可以定义抽象方法<br>枚举值放到第一行</p>
+</li>
+<li><p>反射<br>反射乃框架设计之灵魂。<br>必须先得到类的字节码对象：Class clazz = Class.forName(类的完整类名);<br>如何得到类的字节码：</p>
+<pre><code><span class="tag">Class</span><span class="class">.forName</span>(类的完整类名);
+对象引用名称<span class="class">.getClass</span>();
+类名<span class="class">.class</span>
+</code></pre><p>在反射方法时，如果方法的参数是一个数组，考虑到向下兼容问题，会按照JDK1.4的语法来对待（JVM会把传递的数组参数拆开，拆开就代表参数的个数不匹配）<br>解决办法：防止JVM拆开你的数组<br> <code>方式一：</code>把数组看做是一个Object对象<br> <code>方式二：</code>重新构建一个Object数组，那个参数数组作为唯一的元素存在。</p>
+</li>
+<li><p>内省<br>beanutils内省框架(依赖commons-logging)：apache<br>www.apache.org</p>
+</li>
+<li><p>泛型<br> 只给编译器用的。编译完后字节码中没有泛型的。<br> 泛型：如果等号左右都用到了泛型，必须类型一致。<br> <code>ArrayList&lt;Object&gt; list = new ArrayList&lt;String&gt;();</code>错误的</p>
+<p> 只有一边使用泛型，另一边不使用泛型是可以的。</p>
+<p> 只有引用类型才能作为泛型方法的实际参数</p>
+</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<ol>
+<li><p>JDK7.0介绍<br>新特性</p>
+</li>
+<li><p>静态导入(了解)<br>作用：导入类中的静态成员<br>语法：<code>import static java.lang.System.out;</code><br>或者<code>import static java.lang.System.*;</code></p>]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Web会话概述]]></title>
+    <link href="http://xiabin.github.io/2015/07/22/java-note2/"/>
+    <id>http://xiabin.github.io/2015/07/22/java-note2/</id>
+    <published>2015-07-22T12:05:11.000Z</published>
+    <updated>2015-07-23T09:57:16.438Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、会话概述">一、会话概述</h2><ol>
+<li>会话过程就好比打电话。</li>
+<li>学习会话要解决的问题是什么？<br>会话过程中的数据保存。</li>
+</ol>
+<h2 id="二、Cookie和HttpSession简介">二、Cookie和HttpSession简介</h2><ul>
+<li>Cookie是客户端技术</li>
+<li>HttpSession是服务器端技术  <a id="more"></a>
+</li>
+</ul>
+<h2 id="三、Cookie详细介绍">三、Cookie详细介绍</h2><p>  javax.servlet.http.Cookie</p>
+<ol>
+<li><p>Cookie是什么？</p>
+<ul>
+<li>一个小信息，由服务器写给浏览器的。由浏览器来保存。</li>
+<li>客户端保存的Cookie信息，可以再次带给服务器。</li>
+</ul>
+</li>
+<li><p>Cookie的属性：<br><code>name：</code>必须的<br><code>value:</code>必须的<br><code>comment:</code>可选的。注释<br><code>path：</code>可选的。<br>写Cookie的程序的访问路径是：<code>http://localhost:8080/day07/servlet/CookieDemo1</code></p>
+<pre><code>其中：localhost就是域名；/day07/servlet就是当前Cookie的<span class="built_in">path</span>
+</code></pre><p> 访问的地址的URI.startWith(cookie的路径),为true就带</p>
+<p> 比如IE存的cookie的路径是/day07<br> 现在访问的地址是：<code>http://localhost:8080/day07/servlet/CookieDemo1</code> 带<br> 现在访问的地址是：<code>http://localhost:8080/day07/CookieDemo1</code>      带</p>
+<p> 比如IE存的cookie的路径是/day07/servlet/<br> 现在访问的地址是：<code>http://localhost:8080/day07/servlet/CookieDemo1</code> 带<br> 现在访问的地址是：<code>http://localhost:8080/day07/CookieDemo1</code>       不带</p>
+<p> 如果一个Cookie的路径设置成了/day07，意味着什么？当前应用下的所有资源浏览器都会带着它给服务器。</p>
+<p> <code>domain：</code>可选的。该Cookie所属的网站域名。（itcast.cn）默认值。<br> <code>maximum age：</code>可选的。不设置就是会话过程（存在浏览器的内存中）。单位是秒<br>   如果是0，说明要删除。<br> <code>version：</code>可选的。</p>
+</li>
+<li><p>如何向客户端写Cookie：HttpServletResponse.addCookie(javax.servlet.http.Cookie)（就是写了一个响应消息头：Set-Cookie:cookie的信息）<br>特点：一个浏览器针对一个网站最多存20个Cookie；最多存300个Cookie，每个Cookie的长度不能超过4KB。（稀缺）</p>
+</li>
+<li><p>服务器如何得到客户端传来的Cookie。HttpServletRequest.getCookies()</p>
+</li>
+<li><p>如何区分Cookie：通过名称不行。<br>domain+path+name来区分的。<br>localhost/day07/servlet/lastAccessTime</p>
+</li>
+</ol>
+<h2 id="四、Cookie案例：">四、Cookie案例：</h2><ol>
+<li>记住用户最后一次的访问时间</li>
+<li>记住用户登录时的用户名</li>
+<li>电商网站：记住用户商品的历史浏览记录</li>
+</ol>
+<h2 id="五、Session案例：">五、Session案例：</h2><p> 1.完成用户的一次性登陆（含验证码）<br> 2.防止表单重复提交：MD5、Base64编码</p>
+<ol>
+<li>Session对象的状态转换（生命周期）</li>
+<li>修改HttpSession对象的默认失效时间30分钟  web.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">session-config</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="title">session-timeout</span>&gt;</span>1<span class="tag">&lt;/<span class="title">session-timeout</span>&gt;</span><span class="comment">&lt;!--失效时间，单位是分钟--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">session-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="六、浏览器IE，在什么情况下会开启一次新的会话。">六、浏览器IE，在什么情况下会开启一次新的会话。</h2><ol>
+<li>IE7(含)-： 开启一个新的浏览器进程，就是一次新会话。</li>
+<li>IE8(含)+: 开启一个新的浏览器进程，并没有开始新会话。（文件菜单、开始新会话） 新开启一个Tab页，与原有页面属于同一次会话。 通过一个页面的超链接（target=”_blank”），与原有页面属于同一次会话。</li>
+</ol>
+<h2 id="七、客户端禁用cookie后，会话数据的保存问题">七、客户端禁用cookie后，会话数据的保存问题</h2><ol>
+<li>对于使用<code>http://localhost</code>来访问网站，即使客户端禁用了cookie，但是无效。</li>
+<li>解决办法：URL重写。<br><code>http://192.168.1.250:8080/day07/servlet/RegistServlet ----&gt; http://192.168.1.250:8080/day07/servlet/RegistServlet;JSESSIONID=2983749832743298 String url = HttpServletResponse.encodeURL(String url)</code><br>特点：如果服务器知道客户端没有禁用cookie，那么该方法将不会重写URL。</li>
+</ol>
+<h2 id="八、各种URL地址的写法">八、各种URL地址的写法</h2><p>相对路径<br>绝对路径：（建议的）<br>绝对路径怎么写？什么时候需要加上应用名称”/day07”?<br>原则：地址是不是给服务器用的，如果是,”/“就代表着当前应用。如果是给客户端用的绝对路径要加上应用名称。</p>
+<pre><code><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">path</span>/&gt;</span>                               要加/day07
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">path</span>/&gt;</span><span class="stylus">                                要加/day07
+&lt;<span class="tag">img</span> src=path/&gt;                                    要加/day07
+&lt;<span class="tag">a</span> href=path/&gt;                                    要加/day07
+RequestDispatcher.<span class="function"><span class="title">include</span><span class="params">(path)</span></span>                    不要加，<span class="string">"/"</span>就代表着当前应用
+RequestDispatcher.<span class="function"><span class="title">forward</span><span class="params">(path)</span></span>                    不要加，<span class="string">"/"</span>就代表着当前应用
+HttpServletResponse.<span class="function"><span class="title">sendRedirect</span><span class="params">(path)</span></span>            要加/day07
+ServletContext.<span class="function"><span class="title">getRealPath</span><span class="params">(path)</span></span>                不要加，<span class="string">"/"</span>就代表着当前应用</span>
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="一、会话概述">一、会话概述</h2><ol>
+<li>会话过程就好比打电话。</li>
+<li>学习会话要解决的问题是什么？<br>会话过程中的数据保存。</li>
+</ol>
+<h2 id="二、Cookie和HttpSession简介">二、Cookie和HttpSession简介</h2><ul>
+<li>Cookie是客户端技术</li>
+<li>HttpSession是服务器端技术]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[XMl学习笔记]]></title>
+    <link href="http://xiabin.github.io/2015/07/21/java-note3/"/>
+    <id>http://xiabin.github.io/2015/07/21/java-note3/</id>
+    <published>2015-07-21T11:22:30.000Z</published>
+    <updated>2015-07-23T09:57:16.438Z</updated>
+    <content type="html"><![CDATA[<h2 id="XML的学习目标：">XML的学习目标：</h2><ul>
+<li>能用XML描述现实中的有层次关系的数据</li>
+<li>能使用程序读取到XML中表示的数据（解析Parser）</li>
+</ul>
+<h2 id="一、XML是什么？作用是什么？">一、XML是什么？作用是什么？</h2><ol>
+<li>XML是指可扩展标记语言（eXtensible Markup Language），用户自定义的标签.相对于HTML来讲的。</li>
+<li>XML被设计的宗旨是表示数据。HTML是用来显示数据的。目前经常使用的XML版本是1.0</li>
+<li>XML除了表示数据外。在实际的企业开发中，主要用XML作为程序的配置文件。</li>
+</ol>
+<h2 id="二、XML的基本语法">二、XML的基本语法</h2><ol>
+<li>文档声明：<br><code>作用：</code>用于标识该文档是一个XML文档。<br><code>注意事项：</code>声明必须出现在文档的第一行（之前连空行都不能有，也不能有任何的注释）<br> 最简单的XML声明：<code>&lt;?xml version=&quot;1.0&quot;?&gt;</code><br> 声明中的encoding属性：说明解析当前XML文档时所使用的编码。默认是UTF-8<br> 声明中的standalone属性：说明XML文档是否是独立的。（了解） <a id="more"></a>
+</li>
+</ol>
+<ol>
+<li><p>元素<br>结束标签不能省略<br>一个XML文档必须且只能有一个根标签<br>XML文档中不会忽略回车和换行及空格<br>标签的命名规范：元素(标签)的名称可以包含字母、数字、减号、下划线和英文句点。严格区分大小写。</p>
+</li>
+<li><p>元素的属性<br>元素的属性取值一定要用引号引起来（单引号或双引号）</p>
+</li>
+<li><p>注释<br>与HTML中的注释完全一致：<code>&lt;!--这是注释--&gt;</code><br>注释不能嵌套</p>
+</li>
+<li><p>CDATA区<br>CDATA是Character Data的缩写。<br>作用：CDATA区中的东东都是文本。<br>语法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="cdata">&lt;![CDATA[</span><br><span class="line">    文本内容</span><br><span class="line">]]&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特殊字符</p>
+<pre><code>&amp;        &amp;amp<span class="comment">;</span>
+&lt;        &amp;lt<span class="comment">;    (less than)</span>
+&gt;        &amp;gt:    (great than)
+"        &amp;quot<span class="comment">;</span>
+'        &amp;apos<span class="comment">;</span>
+</code></pre></li>
+<li><p>处理指令(PI:Processing Instruction)<br>处理指令，简称PI(Processing Instruction)。<br>作用：用来指挥软件如何解析XML文档。<br>语法：必须以“&lt;?”作为开头，以“?&gt;”作为结尾。</p>
+</li>
+</ol>
+<h2 id="三、XML的约束">三、XML的约束</h2><ol>
+<li>格式良好的XML文档：符合XML语法的。</li>
+<li>有效的XML文档：遵循约束规范的。<br>格式良好的不一定是有效的，但有效的必定格式良好。</li>
+</ol>
+<h2 id="四、DTD的基本语法（看懂即可）">四、DTD的基本语法（看懂即可）</h2><ol>
+<li>DTD：Document Type Definition</li>
+<li>作用：约束XML的书写规范。</li>
+<li>DTD文件保存到磁盘时，必须使用UTF-8编码</li>
+<li>如何引入外部的DTD文档来约束当前的XML文档<br>DTD文件在本地：&lt;!DOCTYPE 根元素名称 SYSTEM “DTD文件的路径”&gt;<br>DTD文件在网络上：&lt;!DOCTYPE 根元素名称 PUBLIC “DTD名称” “DTD的路径URL”&gt;</li>
+<li>DTD的语法细节<ol>
+<li>定义元素<br> 语法：&lt;!ELEMENT 元素名称 使用规则&gt;<br> 使用规则：<pre><code>(<span class="preprocessor">#PCDATA):指示元素的主体内容只能是普通的文本.(Parsed Character Data)</span>
+<span class="label">EMPTY:</span>指示元素的不能有主体内容。
+<span class="label">ANY:</span>用于指示元素的主体内容为任意类型
+(子元素)：指示元素中包含的子元素
+        如果子元素用逗号分开，说明必须按照声明顺序去编写XML文档
+        如果子元素用“|”分开，说明任选其一。
+        用+、*、？来表示元素出现的次数
+</code></pre></li>
+<li>定义元素的属性(attribute)<br> 语法：&lt;!ATTLIST 哪个元素的属性<pre><code>属性名1 属性值类型 设置说明
+属性名2 属性值类型 设置说明&gt;
+</code></pre> 属性值类型：<pre><code>CDATA：说明该属性的取值为一个普通文本
+ENUMERATED <span class="params">(DTD没有此关键字)</span>：
+    语法：&lt;<span class="built_in">!</span>ATTLIST 元素名称 <span class="params">(值<span class="number">1</span>|值<span class="number">2</span>)</span> <span class="string">"值1"</span>&gt;
+ID:属性的取值不能重复
+</code></pre> 设置说明：<pre><code><span class="preprocessor">#REQUIRED：表示该属性必须出现</span>
+<span class="preprocessor">#IMPLIED：属性可有可无</span>
+<span class="preprocessor">#FIXED:表示属性的取值为一个固定值 语法：#FIXED "固定值"</span>
+直接值：表示属性的取值为该默认值
+</code></pre></li>
+<li>定义实体<br> 关键字ENTITY<br> 实体的定义分为引用实体和参数实体<br> 引用实体：<pre><code>作用：在DTD中定义，在<span class="built_in">XML</span>中使用
+语法：<span class="subst">&lt;!</span>ENTITY 实体名称 <span class="string">"实体内容"</span><span class="subst">&gt;</span>
+在<span class="built_in">XML</span>中使用：<span class="subst">&amp;</span>实体名称;
+</code></pre> 参数实体：<pre><code>作用：在<span class="variable">DTD</span>中定义，在<span class="variable">DTD</span>中使用
+语法：&lt;<span class="exclamation_mark">!</span><span class="variable">ENTITY</span> <span class="comment">% 实体名称 "实体内容"&gt;</span>
+在<span class="variable">DTD</span>中使用：<span class="comment">%实体名称;</span>
+</code></pre></li>
+</ol>
+</li>
+</ol>
+<h2 id="五、XML解析方式概述">五、XML解析方式概述</h2><p>1、常用XML的解析方式：DOM和SAX<br>DOM:Document Object Model是W3C推荐使用的解析方式<br>SAX:Simple API for XML。非官方标准。<br>2、常用解析开发包：<br>JAXP:SUN推出的实现，能进行DOM和SAX方式解析<br>Dom4J<br>JDom等</p>
+<h2 id="六、JAXP进行DOM解析">六、JAXP进行DOM解析</h2><p>JAXP的API都在JavaSE中。<br>org.w3c.dom:提供DOM方式解析XML的标准接口<br>org.xml.sax:提供SAX方式解析XML的标准接口<br>javax.xml:提供了解析XML文档的类</p>
+<h2 id="七、JAXP进行DOM解析的案例">七、JAXP进行DOM解析的案例</h2><h2 id="八、JAXP进行SAX解析">八、JAXP进行SAX解析</h2><p>SAX解析原理：<br>通过读取器读取XML文档，当读到了文档的某一部分时（文档的开始，元素的开始、文本、元素的结束、文档的结束），<br>都会调用事件处理器的对应方法，读到的数据，以参数的形式传递给对应的方法。</p>
+<h2 id="九、Dom4J简介">九、Dom4J简介</h2><h2 id="十、Xpath">十、Xpath</h2><h2 id="十一、Debug调试">十一、Debug调试</h2><h2 id="十二、Junit单元测试">十二、Junit单元测试</h2><h2 id="十三、利用Dom4J改写之前的案例">十三、利用Dom4J改写之前的案例</h2><h2 id="十四_Schema约束(看懂即可)">十四 Schema约束(看懂即可)</h2><ol>
+<li>Schema约束文档本身就是一个XML文档，扩展名为xsd</li>
+<li><p>重点：根据Schema写出XML文档<br>难点：XML文档的根元素怎么写？</p>
+<ol>
+<li><p>首先看Schema文档，找到根元素</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">书架</span>&gt;</span><span class="tag">&lt;/<span class="title">书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>思考：书架来自于哪个名称空间？看Schema文档，targetNamespace就是名称空间。<br>用xmlns关键字(xmlns名称空间声明)来声明我的元素来自哪个名称空间（xmlns：xml namespace）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">itcast:书架</span> <span class="attribute">xmlns:itcast</span>=<span class="value">"http://www.itcast.cn"</span>&gt;</span><span class="tag">&lt;/<span class="title">itcast:书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>思考：名称空间与哪个xsd文件对应呢？使用schemaLocation关键字来关联名称空间和xsd的对应关系</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">itcast:书架</span> <span class="attribute">xmlns:itcast</span>=<span class="value">"http://www.itcast.cn"</span></span><br><span class="line"> <span class="attribute">schemaLocation</span>=<span class="value">"http://www.itcast.cn book.xsd"</span>&gt;</span><span class="tag">&lt;/<span class="title">itcast:书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>schemaLocation来自哪里？来自一个标准的名称空间<code>（http://www.w3.org/2001/XMLSchema-instance）</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">itcast:书架</span> <span class="attribute">xmlns:itcast</span>=<span class="value">"http://www.itcast.cn"</span></span><br><span class="line">            <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">            <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://www.itcast.cn book.xsd"</span>&gt;</span><span class="tag">&lt;/<span class="title">itcast:书架</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="XML的学习目标：">XML的学习目标：</h2><ul>
+<li>能用XML描述现实中的有层次关系的数据</li>
+<li>能使用程序读取到XML中表示的数据（解析Parser）</li>
+</ul>
+<h2 id="一、XML是什么？作用是什么？">一、XML是什么？作用是什么？</h2><ol>
+<li>XML是指可扩展标记语言（eXtensible Markup Language），用户自定义的标签.相对于HTML来讲的。</li>
+<li>XML被设计的宗旨是表示数据。HTML是用来显示数据的。目前经常使用的XML版本是1.0</li>
+<li>XML除了表示数据外。在实际的企业开发中，主要用XML作为程序的配置文件。</li>
+</ol>
+<h2 id="二、XML的基本语法">二、XML的基本语法</h2><ol>
+<li>文档声明：<br><code>作用：</code>用于标识该文档是一个XML文档。<br><code>注意事项：</code>声明必须出现在文档的第一行（之前连空行都不能有，也不能有任何的注释）<br> 最简单的XML声明：<code>&lt;?xml version=&quot;1.0&quot;?&gt;</code><br> 声明中的encoding属性：说明解析当前XML文档时所使用的编码。默认是UTF-8<br> 声明中的standalone属性：说明XML文档是否是独立的。（了解）]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xiabin.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xiabin.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[JS一些经典问题]]></title>
+    <link href="http://xiabin.github.io/2014/10/21/js-classical-problem/"/>
+    <id>http://xiabin.github.io/2014/10/21/js-classical-problem/</id>
+    <published>2014-10-21T13:43:32.000Z</published>
+    <updated>2015-07-23T08:04:52.390Z</updated>
+    <content type="html"><![CDATA[<h4 id="JS一些经典问题">JS一些经典问题</h4><p>本文介绍下经常出现的javascript兼容性问题以及解决办法</p>
+<p><code>遍历数值时对DOM监听事件，索引值始终等于遍历结束后的值</code><br>    处理方法 我们可以添加索引属性，或者采用闭包的方法去处理。<br>    <a id="more"></a><br><code>控制this关键字的指向</code><br>在js中this指针的指向是个让人琢磨不透的东西。例如js的伪协议和内链事件对应this指向的不同伪协议一般指向的是当前标签而内联事件则是指向window对象<br><code>setTimeout和setInterva以及DomNode.onxxx</code><br>改变的是直接调用函数里面this的指向，都是把它们指向window，DomNode.onxxx将直接调用函数里面的this指向DomNode.<br>解决的代办处可以将处理函数由直接调用编程匿名函数间接调用<br>另外还可以通过call和apply函数来改变处理函数this的指向。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h4 id="JS一些经典问题">JS一些经典问题</h4><p>本文介绍下经常出现的javascript兼容性问题以及解决办法</p>
+<p><code>遍历数值时对DOM监听事件，索引值始终等于遍历结束后的值</code><br>    处理方法 我们可以添加索引属性，或者采用闭包的方法去处理。<br>]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/tags/JavaScript/"/>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/categories/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[典型的javascript兼容性问题]]></title>
+    <link href="http://xiabin.github.io/2014/10/21/js-compatibility/"/>
+    <id>http://xiabin.github.io/2014/10/21/js-compatibility/</id>
+    <published>2014-10-21T13:40:25.000Z</published>
+    <updated>2015-07-23T08:04:52.390Z</updated>
+    <content type="html"><![CDATA[<h4 id="典型的javascript兼容性问题">典型的javascript兼容性问题</h4><p>本文介绍下经常出现的javascript兼容性问题以及解决办法</p>
+<p><code>nextSibing</code><br>    Firefox会将包括空白、换行等文本信息也当做childNodes中的一员，而IE则会忽略它，只将DOM节点当做是childNodes的一员。我么可以使用document.all 来判断，因为该属性是IE下的特有属性，而在Firefox是不支持的。可以通过判断此属性来进行相应的处理。<br>    <a id="more"></a><br><code>透明度</code><br>透明度问题与上面个问题类似，IE下透明度是通过滤镜来实现的，而在firefox下透明度是通过css的opacity来实现的。我们可以进行如下设置:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">document</span>.all)&#123;</span><br><span class="line">a.style.filter = <span class="string">'alpha(opacity = 20)'</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">a.style.opacity = <span class="number">0.2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>则可以进行正常的设置了。  </p>
+<p><code>event对象</code><br>  IE下event对象是window的属性作用域全局作用域，而在FIreofox中event对象是作为事件的参数存在的。可以这样获取：<br>e = window.event || e;<br>对于派生事件的对象在IE下是通过event的srcELement属性访问的，而在Firefox下是通过event对象的target属性访问的.<br><code>冒泡</code><br>要阻止事件冒泡，在IE下我们可以通过设置event对象的cancelBubble属性为true实现的，而在Firefox下则是通过调用event对象的stopPropagation方法实现的。<br><code>on,attachEvent 和 addEventListemer</code><br>要阻止事件冒泡，在IE下我们可以通过设置event对象的cancelBubble属性为true实现的，而在Firefox下则是通过调用event对象的stopPropagation方法实现的。<br>由于通过on xxx 监听方式没有叠加的效果，最后定义的会将前面的覆盖掉。这是一个危险的方法，我们推荐使用addEvent和addEventLister方法来代替，前者是IE支持的方法，而后者是Firefox支持的方法。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">&#125;);</span><br><span class="line">addEventLister(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h4 id="典型的javascript兼容性问题">典型的javascript兼容性问题</h4><p>本文介绍下经常出现的javascript兼容性问题以及解决办法</p>
+<p><code>nextSibing</code><br>    Firefox会将包括空白、换行等文本信息也当做childNodes中的一员，而IE则会忽略它，只将DOM节点当做是childNodes的一员。我么可以使用document.all 来判断，因为该属性是IE下的特有属性，而在Firefox是不支持的。可以通过判断此属性来进行相应的处理。<br>]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/tags/JavaScript/"/>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/categories/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[给程序统一的入口]]></title>
+    <link href="http://xiabin.github.io/2014/10/21/js-unified-entrance/"/>
+    <id>http://xiabin.github.io/2014/10/21/js-unified-entrance/</id>
+    <published>2014-10-21T13:16:39.000Z</published>
+    <updated>2015-07-23T08:04:52.390Z</updated>
+    <content type="html"><![CDATA[<p><code>给程序统一的入口</code><br><code>window.onload和DOMReady</code><br>存在问题:  </p>
+<ol>
+<li>js加载混乱，没有纪律性</li>
+<li>在DOM节点还没有被载入的时候程序会报错  <a id="more"></a>
+当把js文件放在window.onload事件之后，window对象会在网页元素全部加载完毕之后才会触发onload事件，而此时DOM节点已经生成，则执行程序不会报错。<br>下面说下window.onload和DOMReady的区别：<br>前者需要等页面加载完成时才会触发，包括图片，flash等富媒体。DOMReady只是判断页面内所有的DOM节点是否已经全部生成，至于节点的内容是否加载完成，它并不关心。所以后者触发比前者快，特别当页面还有大量的富媒体资源时，后者触发很久后才会触发前者。<br>但是DOMReady不是原生js里面就有的我们可以通过js的框架库来实现，比如说jquery.<br>如$(document).ready();<br>或者你也可以把加载js文件的位置写在最接近标签的地方。</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><code>给程序统一的入口</code><br><code>window.onload和DOMReady</code><br>存在问题:  </p>
+<ol>
+<li>js加载混乱，没有纪律性</li>
+<li>在DOM节点还没有被载入的时候程序会报错]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/tags/JavaScript/"/>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/categories/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[避免js冲突]]></title>
+    <link href="http://xiabin.github.io/2014/10/21/javascript/"/>
+    <id>http://xiabin.github.io/2014/10/21/javascript/</id>
+    <published>2014-10-21T12:10:36.000Z</published>
+    <updated>2015-07-23T06:56:52.182Z</updated>
+    <content type="html"><![CDATA[<h4 id="接触前端已经有一段时间了现在写写关于前端js编程的总结吧">接触前端已经有一段时间了现在写写关于前端js编程的总结吧</h4><p><strong>本章主要介绍如何避免<code>js冲突</code></strong></p>
+<p> 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。<br> <a id="more"></a></p>
+<p>解决办法如下：</p>
+<ol>
+<li>一种简单有效的方法就是用匿名函数把脚本包起来，让变量的作用域在匿名函数之内，写法如下：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Function()&#123;&#10;       //&#20195;&#30721;&#10;&#125;&#65288;&#65289;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这是一种很巧妙的形式首先定义了一个匿名的function然后立即调用。<br><strong>Ps:用匿名函数把脚本包起来，可以有效控制全局变量，避免冲突。</strong></p>
+<p>好的 看起来这是很好的解决办法 是不是？现在假设假设A程序员写了一个脚本，然后B程序员想调用A程序员写的脚本里面定义的变量。但是在这种通过匿名函数包裹起来的方式下，是行不通的。这个时候我们应该想想别的对策。</p>
+<ol>
+<li>我们可以使用全局作用域变量来传递需要跨脚本的变量，我们可以在添加全局变量，但是我们要考虑到全句变量的数量问题，所以我们采用hash对象作为全局变量。如下形式：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> GLOBAL=&#123;&#125;;</span><br><span class="line"><span class="comment">//添加的变量方法如下</span></span><br><span class="line">GLOBAL.str=”xxx”;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样就可以添加全局变量了<br>但是在想想要是有很多程序员一起工作每个都添加全局变量那么还是回冲突的所以我么应该设置一个方法用来检测该全局变量是否存在同时存在并且是否重复挂载在GlOBAL下面。</p>
+<ol>
+<li>在这里我们引进命名空间的说法，即每个程序员在写自己的脚本的时候都为自己命名一个命名空间把需要传递的变量挂载在这下面。<br>下面是使用命名空间解决冲突的完整代码：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span>  GLOBAL=&#123;&#125;;</span><br><span class="line">GLOBAL.namespace=<span class="function"><span class="keyword">function</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> arr=str.split(“.”),<span class="number">0</span>=CLOBAL；</span><br><span class="line">   <span class="keyword">for</span>(i=(arr[<span class="number">0</span>] == “GLOBAL”)?<span class="number">1</span> : <span class="number">0</span>; I &lt;arr.length; i++)&#123;</span><br><span class="line">      o[arr[[i]] = o[arr[i]] || &#123;&#125;;</span><br><span class="line">      o =o[arr[i]];</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>Ps:添加必要的注释，可以大大提高代码的可维护性，对于团队合作来说更是十分有必要。通过合理的添加注释以及使用命名空间，可以很好的避免js冲突</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h4 id="接触前端已经有一段时间了现在写写关于前端js编程的总结吧">接触前端已经有一段时间了现在写写关于前端js编程的总结吧</h4><p><strong>本章主要介绍如何避免<code>js冲突</code></strong></p>
+<p> 首先说说变量命名的冲突，一般多为全局变量，当一个html文件中引入多个js文件时而每个js文件中有相同的变量的时候则会发生冲突：后引入js文件的变量会覆盖前面存在的。<br>]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/tags/JavaScript/"/>
+    
+      <category term="JavaScript" scheme="http://xiabin.github.io/categories/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[hexo 初体验]]></title>
+    <link href="http://xiabin.github.io/2014/10/19/first/"/>
+    <id>http://xiabin.github.io/2014/10/19/first/</id>
+    <published>2014-10-19T05:24:18.000Z</published>
+    <updated>2015-07-23T06:56:52.182Z</updated>
+    <content type="html"><![CDATA[<p>第一次使用hexo 搭建自己的博客，中间遇到了很多问题，花了很多时间去处理，昨晚上熬夜到三点多终于搞定了！<br><a id="more"></a></p>
+<h3 id="遇到的问题">遇到的问题</h3><ul>
+<li>无法deploy<ul>
+<li>看看别人的blog，去配置下ssh吧</li>
+</ul>
+</li>
+<li>ssh配置问题<ul>
+<li>严格按照官方的问题操作，切忌自作聪明，在你配置好了之后在做修改</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>第一次使用hexo 搭建自己的博客，中间遇到了很多问题，花了很多时间去处理，昨晚上熬夜到三点多终于搞定了！<br>]]>
+    
+    </summary>
+    
+      <category term="HEXO" scheme="http://xiabin.github.io/tags/HEXO/"/>
+    
+      <category term="感受" scheme="http://xiabin.github.io/categories/%E6%84%9F%E5%8F%97/"/>
+    
+  </entry>
+  
+</feed>

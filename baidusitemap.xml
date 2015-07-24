@@ -164,12 +164,12 @@
 
     
   <url>
-    <loc>http://xiabin.github.io/2014/10/21/js-unified-entrance/</loc>
+    <loc>http://xiabin.github.io/2014/10/21/js-compatibility/</loc>
     <lastmod>2015-07-23T08:04:52.390Z</lastmod>
     <data>
         <display>
-        <title>给程序统一的入口</title>
-        <pubTime>2014-10-21T13:16:39.000Z</pubTime>
+        <title>典型的javascript兼容性问题</title>
+        <pubTime>2014-10-21T13:40:25.000Z</pubTime>
         
         <tag>JavaScript </tag>
          
@@ -204,12 +204,12 @@
 
     
   <url>
-    <loc>http://xiabin.github.io/2014/10/21/js-compatibility/</loc>
+    <loc>http://xiabin.github.io/2014/10/21/js-unified-entrance/</loc>
     <lastmod>2015-07-23T08:04:52.390Z</lastmod>
     <data>
         <display>
-        <title>典型的javascript兼容性问题</title>
-        <pubTime>2014-10-21T13:40:25.000Z</pubTime>
+        <title>给程序统一的入口</title>
+        <pubTime>2014-10-21T13:16:39.000Z</pubTime>
         
         <tag>JavaScript </tag>
          
