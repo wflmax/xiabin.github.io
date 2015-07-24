@@ -2,6 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+  <url>
+    <loc>http://xiabin.github.io/2015/07/24/linux-note1/</loc>
+    <lastmod>2015-07-24T03:58:59.378Z</lastmod>
+    <data>
+        <display>
+        <title>Linux学习常用基础</title>
+        <pubTime>2015-07-24T03:32:32.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://xiabin.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://xiabin.github.io/2015/07/23/java-note7/</loc>
@@ -164,12 +184,12 @@
 
     
   <url>
-    <loc>http://xiabin.github.io/2014/10/21/js-compatibility/</loc>
+    <loc>http://xiabin.github.io/2014/10/21/js-unified-entrance/</loc>
     <lastmod>2015-07-23T08:04:52.390Z</lastmod>
     <data>
         <display>
-        <title>典型的javascript兼容性问题</title>
-        <pubTime>2014-10-21T13:40:25.000Z</pubTime>
+        <title>给程序统一的入口</title>
+        <pubTime>2014-10-21T13:16:39.000Z</pubTime>
         
         <tag>JavaScript </tag>
          
@@ -204,12 +224,12 @@
 
     
   <url>
-    <loc>http://xiabin.github.io/2014/10/21/js-unified-entrance/</loc>
+    <loc>http://xiabin.github.io/2014/10/21/js-compatibility/</loc>
     <lastmod>2015-07-23T08:04:52.390Z</lastmod>
     <data>
         <display>
-        <title>给程序统一的入口</title>
-        <pubTime>2014-10-21T13:16:39.000Z</pubTime>
+        <title>典型的javascript兼容性问题</title>
+        <pubTime>2014-10-21T13:40:25.000Z</pubTime>
         
         <tag>JavaScript </tag>
          
